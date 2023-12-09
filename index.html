@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rendement GTA</title>
     <!-- Required Stylesheets -->
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['\\[', '\\]']]
+          }
+        };
+        </script>
+        <script id="MathJax-script" async
+        src=./dist/tex-mml-chtml.js>
+        </script>
     <link
         type="text/css"
         rel="stylesheet"
@@ -16,11 +26,7 @@
         href="./css/turbine.css"
     />
     <!--script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script-->
-
-    <script type="text/javascript" id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-    </script>
-     
+    
 </head>
 <body>
     <div id="app">
@@ -224,7 +230,9 @@
                                 La variation de ce rendement est significative d'une évolution de la différence entre l'énergie entrante et l'énergie sortante, soit les pertes.</p>
                                 <p>Les GTA présents dans certaines usines (e.g. d'incinération) ne possèdent pas de mesure de couple sur les arbres de sortie turbine permettant un calcul direct de la puissance de sortie de la turbine. Le réducteur et l'alternateur seront donc inclus de fait dans la formule, la perte de rendement qui pourrait être mesurée ne permettra pas de distinguer l'origine de la perte entre la turbine et des autres éléments.</p>
                                 <p>L'expression du rendement présentée dans la publication CEI 953-2 la mieux adaptée aux turbines industrielles simples est le rendement thermodynamique. Défini comme le rapport de la puissance de sortie à la puissance isentropique (produit du débit massique de vapeur et de la chute d'enthalpie isentropique entre la vapeur initiale et la pression d'échappement), la valeur numérique du rendement thermodynamique ne dépend pas des conditions initiales de vapeur et d'échappement, mais est l'indication de l'efficacité de la détente seulement (aux rendements du réducteur et de l'alternateur près) 
-                                    \[ \eta_{th} = \frac{PE_b}{Q_a \times \Delta H_{S_{a:1}} + \sum_{i=1}^{n-1} \times (Q_a - \sum_{j=1}^{i} Q_j) \Delta H_{S_{i:i+1}} + (Q_a - \sum_{j=1}^n Q_j) \Delta H_{S_{n:e}}} \]
+                                    \[ 
+                                    \eta_{th} = \frac{PE_b}{Q_a \times \Delta H_{S_{a:1}} + \sum_{i=1}^{n-1} \times (Q_a - \sum_{j=1}^{i} Q_j) \Delta H_{S_{i:i+1}} + (Q_a - \sum_{j=1}^{n} Q_j) \Delta H_{S_{n:e}}} 
+                                    \]
                                 </p>
                             </q-card-section>
                             <q-separator />
