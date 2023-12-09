@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rendement GTA</title>
+    <!-- Required Stylesheets -->
+    <link
+        type="text/css"
+        rel="stylesheet"
+        href="./css/quasar.prod.css"
+    />
+    <link
+        type="text/css"
+        rel="stylesheet"
+        href="./css/turbine.css"
+    />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\[', '\]']],
+                processEscapes: true
+            }
+        });
+    </script>
+</head>
+<body>
+    <div id="app">
+        <q-layout view="hHh lpR fFf">
+            <q-header elevated class="bg-primary text-white">
+                <q-toolbar>
+                    <q-toolbar-title>
+                        Mesure du rendement d'un GTA
+                    </q-toolbar-title>
+                        <q-btn @click="documentation = true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-square-fill" viewBox="0 0 16 16">
+                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.93 4.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                        </svg></i></q-btn>
+                    </q-toolbar>
+            </q-header>
+            <q-page-container>
+                <div class="row">
+<!-- q-card measures -->
+                    <div class="col-12 col-md-6 q-pa-sm">
+                        <q-card>
+                            <q-card-section>
+                                <div class="text-h6">Relevés</div>
+                            </q-card-section>
+                            <q-separator inset></q-separator>
+                            <q-card-section class="q-pt-none">
+                                <div class="box">
+                                    <div class="rectangleAdmission"><q-btn color="primary" class="btnAdm" size="xs" @click="handleShowModal(0)" label="Adm"></div>
+                                    <div class="trapezeTurbine"></div>
+                                    <div class="rectangleSoutirage1"></div>
+                                    <input type="checkbox" id="rob1" class="toggle" style="display: none;">
+                                    <label for="rob1" id="rob1Label" class="robinetSoutirage1" @click="handleClickSout(1)"></label>
+                                    <div class="rectangleSoutirage2">
+                                        <q-btn-group class="btnSout">
+                                            <q-btn color="primary" size="xs" label="Sout1" id="btnSout1" @click="handleShowModal(1)" disabled></q-btn>
+                                            <q-btn color="primary" size="xs" label="Sout2" id="btnSout2" @click="handleShowModal(2)" disabled></q-btn>
+                                            <q-btn color="primary" size="xs" label="Sout3" id="btnSout3" @click="handleShowModal(3)" disabled></q-btn>
+                                        </q-btn-group>
+                                    </div>
+                                    <input type="checkbox" id="rob2" class="toggle" style="display: none;" disabled>
+                                    <label for="rob2" id="rob2Label" class="robinetSoutirage2" @click="handleClickSout(2)" ></label>
+                                    <div class="rectangleSoutirage3"></div>
+                                    <input type="checkbox" id="rob3" class="toggle" style="display: none;" disabled>
+                                    <label for="rob3" id="rob3Label" class="robinetSoutirage3" @click="handleClickSout(3)" ></label>
+                                    <div class="rectangleEchappement"><q-btn color="primary" class="btnEchp" size="xs" @click="handleShowModal(4)" label="Ech"></q-btn></div>
+                                    <div class="rectangleSortieTurbine"></div>
+                                    <div class="rectangleReducteur">
+                                        <q-btn class="btnRed" color="amber" size="xs" @click="handleShowModal(5)" label="Red"></q-btn> 
+                                        <div class="gearBox">
+                                            <div class="gear">
+                                                <div class="bar"></div>
+                                                <div class="bar"></div>
+                                                <div class="bar"></div>
+                                                <div class="gear-inner"></div>
+                                                </div>
+                                                <div class="gear2">
+                                                <div class="bar2"></div>
+                                                <div class="bar2"></div>
+                                                <div class="bar2"></div>
+                                                <div class="bar2"></div>
+                                                <div class="bar2"></div>
+                                                <div class="bar2"></div>
+                                                <div class="gear-inner2"></div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="rectangleSortieReducteur"></div>
+                                    <div class="rectangleAlternateur">
+                                        <q-btn color="secondary" class="btnRed" size="xs" @click="handleShowModal(6)" label="Alt"></q-btn>
+                                        <div class="ondeBox">
+                                            <svg width="100%" height="100%" viewBox="0 0 200 100">
+                                                <defs>
+                                                    <path stroke="#14213d" fill="none" id="sign-wave" d="M0 50
+                                                            C 40 10, 60 10, 100 50 C 140 90, 160 90, 200 50
+                                                            C 240 10, 260 10, 300 50 C 340 90, 360 90, 400 50" />
+                                                </defs>
+                                                <use xlink:href="#sign-wave" x="0" y="0">
+                                                    <animate attributeName="x" from="-200" to="0" dur="3s" repeatCount="indefinite" />
+                                                </use>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="phase1"></div>
+                                    <div class="phase2"></div>
+                                    <div class="phase3"></div>
+                                    <q-btn class="btnPelec" color="secondary" size="xs" @click="handleShowModal(7)" label="P_elec"></q-btn>
+                                </div>
+                                <div class="q-pa-md">
+                                    <q-table
+                                        flat
+                                        bordered
+                                        :rows="computedRows"
+                                        :columns="computedColumns"
+                                        binary-state-sort
+                                        dense
+                                        hide-pagination
+                                        separator="cell"
+                                    >
+                                    <template v-slot:body="props">
+                                        <q-tr :props="props">
+                                            <q-td v-for="col in computedColumns" :key="col.name" :props="props">
+                                                {{ props.row[col.name] }}
+                                            </q-td>
+                                        </q-tr>
+                                    </template>
+                                    </q-table>
+                                </div>
+                                <div class="q-pa-md">
+                                    <q-table
+                                        flat bordered
+                                        :rows="computedRows2"
+                                        :columns="computedColumns2"
+                                        row-key="name"
+                                        binary-state-sort
+                                        dense
+                                        hide-pagination
+                                        separator="cell"
+                                    >
+                                    <template v-slot:body="props">
+                                        <q-tr :props="props">
+                                            <q-td v-for="col in computedColumns2" :key="col.name" :props="props">
+                                                {{ props.row[col.name] }}
+                                            
+                                            </q-td>
+                                        </q-tr>
+                                        </template>
+                                        </q-table>
+                                    </div>
+                                </q-card-section>
+                                <q-card-section>
+                                    <q-btn color="primary" size="sm" @click="loadVal()" label="Valeurs de test"></q-btn>
+                                    <q-btn style="margin-left: 10px;" size="sm" color="primary" @click="turbine()" label="Rendement Isentropique"></q-btn>
+                                    <!--p>vérif valeur sout: {{data}}</p-->
+                                </q-card-section>
+
+                        </q-card>
+                    </div>
+<!-- q-card results -->
+                    <div class="col-12 col-md-6 q-pa-sm">
+                        <q-card>
+                            <q-card-section>
+                                <div class="text-h6">Résultats</div>
+                            </q-card-section>
+                            <q-separator inset></q-separator>
+                            <q-card-section class="q-pt-none">
+                                <div style="margin-top: 10px; border: 2px solid #26a69a; padding: 10px;">
+                                    <p>Rendement isentropique: {{rendement}} %</p>
+                                    <p>Rendement isentropique turbine: {{rendementTurbine}} %</p>  
+                                </div>
+                            </q-card-section>
+                            <q-card-section class="q-pt-none">
+                                <div>
+                                    <q-responsive :ratio="2/1.5" style=" max-width: 100%;">
+                                        <canvas id="line-chart"></canvas>
+                                    </q-responsive>
+                                </div>
+                            </q-card-section>
+                        </q-card>
+<!-- q-dialog measures -->
+                    <q-dialog v-model="measurementRecord">
+                        <q-card>
+                            <q-card-section>
+                                <div class="text-h6">{{ data[dataIndex].title }}</div>
+                            </q-card-section>
+                            <q-card-section class="q-pt-none">
+                                <div>
+                                    <q-form class="q-gutter-xs" autocorrect="off" @submit="handleOk">
+                                        <q-input
+                                            v-for="(field, key) in data[dataIndex].fields"
+                                            :key="key"
+                                            outlined
+                                            :label="field"
+                                            v-model="data[dataIndex][key]"
+                                            :id="key"
+                                            :rules="[val => !!val || 'le champ ne peut pas être vide']"
+                                            no-error-icon=false
+                                        ></q-input>
+                                        <div align="right">
+                                            <q-btn flat label="Annuler" color="primary" @click="handleCancel(dataIndex)"></q-btn>
+                                            <q-btn flat label="OK" type="submit" color="primary" ></q-btn>
+                                        </div>
+                                    </q-form>
+                                </div>
+                            </q-card-section>
+                        </q-card>
+                    </q-dialog>
+<!-- q-dialog documentation -->
+                    <q-dialog v-model="documentation">
+                        <q-card>
+                            <q-card-section>
+                            <div class="text-h6">Documentation</div>
+                            <q-space />
+                            <q-btn icon="close" flat round dense v-close-popup></q-btn>
+                            </q-card-section>
+                            <q-separator></q-separator>
+                            <q-card-section style="max-height: 50vh" class="scroll">
+                                <h5>Généralités</h5>
+                                <p>La dérive dans le temps du rendement de la turbine est caractéristique de l’état de ses internes (étanchéités des inter-étages et des périphéries des roues, état d'encrassement ou de déformation des ailettages mobiles et aubages fixes).</p>
+                                <p>Le suivi de ce rendement permet de consolider un programme de maintenance, et participe, au même titre que les contrôles de suivi traditionnels (analyse vibratoire, analyse d’huile, analyse thermique...) à la maîtrise de l’état de la machine.</p>
+                                <p>En s’appuyant sur les publications CEI 953-1 et 953-2, "Rules for steam turbine thermal acceptance tests", ce standard propose un mode de mesure du rendement du GTA, et les modalités de mesure.</p>
+                                <h5>Rendement GTA</h5>
+                                <p>Le rendement d'une installation est défini par le rapport de l'énergie sortante/énergie entrante.
+                                La variation de ce rendement est significative d'une évolution de la différence entre l'énergie entrante et l'énergie sortante, soit les pertes.</p>
+                                <p>Les GTA présents dans les usines d'incinération ne possèdent pas de mesure de couple sur les arbres de sortie turbine permettant un calcul direct de la puissance de sortie de la turbine. Le réducteur et l'alternateur seront donc inclus de fait dans la formule, la perte de rendement qui pourrait être mesurée ne permettra pas de distinguer l'origine de la perte entre la turbine et des autres éléments.</p>
+                                <p>L'expression du rendement présentée dans la publication CEI 953-2 la mieux adaptée aux turbines industrielles simples est le rendement thermodynamique. Défini comme le rapport de la puissance de sortie à la puissance isentropique (produit du débit massique de vapeur et de la chute d'enthalpie isentropique entre la vapeur initiale et la pression d'échappement), la valeur numérique du rendement thermodynamique ne dépend pas des conditions initiales de vapeur et d'échappement, mais est l'indication de l'efficacité de la détente seulement (aux rendements du réducteur et de l'alternateur près) \[ \eta_{th} = \frac{PE_b} {Q_a} \]</p>
+                            </q-card-section>
+                            <q-separator />
+                            <q-card-actions align="right">
+                                <q-btn flat label="Fermer" color="primary" v-close-popup />
+                            </q-card-actions>
+                        </q-card>
+                    </q-dialog>
+                </div>
+        <!--/div-->
+      <!--/div-->
+            </q-page-container>
+        <!--/div-->
+        </q-layout>
+
+<script src="./dist/vue.global.js"></script>
+<script src="./dist/quasar.umd.prod.js"></script>
+<script charset="utf-8" src="./dist/neutriumJS.thermo.IAPWS97.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module">
+
+const tc_water = 647.096;
+
+function T_K(temperature) {
+  return temperature + 273.15;
+}
+
+function P_MPa(pressure) {
+  return pressure / 10.0;
+}
+
+function h_sat_liq(T) {                 
+    let h_sat_liq = -1;
+    if ((T >= 273.15) && (T <= 623.15)) {
+        var P = NeutriumJS.thermo.IAPWS97.PT.r4_T_Psat(T);
+        h_sat_liq = NeutriumJS.thermo.IAPWS97.PT.r1(P, T).h;
+    } else if ((T > 623.15) && (T <= tc_water)) {
+        var P = NeutriumJS.thermo.IAPWS97.PT.r4_T_Psat(T);
+        h_sat_liq = NeutriumJS.thermo.IAPWS97.PT.r3(P, T, -1).h;           
+    } else {
+        h_sat_liq = -1;
+    }
+
+    return h_sat_liq
+}
+
+function h_sat_vap(T) {
+    let h_sat_vap = -1;
+    if ((T >= 273.15) && (T <= 623.15)){
+        const P = NeutriumJS.thermo.IAPWS97.PT.r4_T_Psat(T);
+        h_sat_vap = NeutriumJS.thermo.IAPWS97.PT.r2(P, T).h;
+    } else if ((T > 623.15) && (T <= tc_water)) {
+        const P = NeutriumJS.thermo.IAPWS97.PT.r4_T_Psat(T) - 1e-05
+        h_sat_vap = NeutriumJS.thermo.IAPWS97.PT.r3_PT(P, T, -1).h;
+    } else {
+        h_sat_vap = -1;
+        }
+
+    return h_sat_vap
+}
+
+function s_sat_liq(T) {
+    let s_sat_liq = -1;
+    if ((T >= 273.15) && (T <= 623.15)) {
+        const P = NeutriumJS.thermo.IAPWS97.PT.r4_T_Psat(T);
+        s_sat_liq = NeutriumJS.thermo.IAPWS97.PT.r1(P, T).s;
+    } else if ((T > 623.15) && (T <= tc_water)) {
+        const P = NeutriumJS.thermo.IAPWS97.PT.r4_T_Psat(T);
+        s_sat_liq = NeutriumJS.thermo.IAPWS97.PT.r3_PT(P, T, -1).s;
+    } else {
+        s_sat_liq = -1;
+    }
+
+    return s_sat_liq
+}
+
+function s_sat_vap(T) {
+    let s_sat_vap = -1;
+    if ((T >= 273.15) && (T <= 623.15)){
+        const P = NeutriumJS.thermo.IAPWS97.PT.r4_T_Psat(T);
+        s_sat_vap = NeutriumJS.thermo.IAPWS97.PT.r2(P, T).s;
+    } else if ((T > 623.15) && (T <= tc_water)) {
+        const P = NeutriumJS.thermo.IAPWS97.PT.r4_T_Psat(T) - 1e-05
+        s_sat_vap = NeutriumJS.thermo.IAPWS97.PT.r3_PT(P, T, -1).s;
+    } else {
+        s_sat_vap = -1;
+        }
+
+    return s_sat_vap
+} 
+
+function h_liq_vap(T, s){
+    let A = (h_sat_liq(T) - h_sat_vap(T)) / (s_sat_liq(T) - s_sat_vap(T))  
+    let B =  ((s_sat_liq(T) * h_sat_vap(T)) - (s_sat_vap(T) * h_sat_liq(T)))/ (s_sat_liq(T) - s_sat_vap(T))
+    console.log(A, B);
+    return ((A * s) + B)
+}
+
+const app = Vue.createApp({
+    data: function() {
+        const documentation = false;
+        const rendement = 0;
+        const rendementTurbine = 0;
+        const dataIndex= "";
+        const data = {  
+            0: {
+                "title": "Admission",
+                "fields": {"P":"Pression (bar abs)", "T":"Température (°C)", "Q":"Débit massique (T/h)"},
+                "P": "",
+                "T": "",
+                "Q": "",
+                "h": 0,
+                "s": 0,
+                "s_iso": 0,
+                "h_iso": 0
+            },
+            1: {
+                "title": "Soutirage 1",
+                "fields": {"P":"Pression (bar abs)", "T":"Température (°C)", "Q":"Débit massique (T/h)"},
+                "P": "",
+                "T": "",
+                "Q": "",
+                "h": 0,
+                "s": 0,
+                "s_iso": 0,
+                "h_iso": 0
+            },
+            2: {
+                "title": "Soutirage 2",
+                "fields": {"P":"Pression (bar abs)", "T":"Température (°C)", "Q":"Débit massique (T/h)"},
+                "P": "",
+                "T": "",
+                "Q": "",
+                "h": 0,
+                "s": 0,
+                "s_iso": 0,
+                "h_iso": 0
+            },
+            3: {
+                "title": "Soutirage 3",
+                "fields": {"P":"Pression (bar abs)", "T":"Température (°C)", "Q":"Débit massique (T/h)"},
+                "P": "",
+                "T": "",
+                "Q": "",
+                "h": 0,
+                "s": 0,
+                "s_iso": 0,
+                "h_iso": 0
+            },
+            4: {
+                "title": "Echappement",
+                "fields": {"P":"Pression (bar abs)", "T":"Température (°C)"},
+                "P": "",
+                "T": "",
+                "h": 0,
+                "s": 0,
+                "s_iso": 0,
+                "h_iso": 0
+            },
+            5: {
+                "title": "Rendement réducteur",
+                "fields": {"rendRed" : "Mesure"},
+                "rendRed": 0.98
+            },
+            6: {
+                "title": "Rendement alternateur",
+                "fields": {"rendAlt":"Mesure"},
+                "rendAlt": 0.974
+            },
+            7: {
+                "title": "Puissance électrique",
+                "fields": {"pElec" : "Mesure"},
+                "pElec": ""
+            }
+        };
+
+        return {
+            documentation: documentation,
+            data: data,
+            dataIndex: dataIndex,
+            rendement : rendement,
+            rendementTurbine : rendementTurbine,
+            measurementRecord: false,
+            rob1Open: false, 
+            rob2Open: false, 
+            rob3Open: false,
+            columns: [],
+        } 
+    },
+
+	mounted () {
+	    this.createChart("line-chart");
+	},
+
+    computed: {
+        computedColumns(){
+            const isPortraitMode = window.matchMedia("(orientation: portrait)").matches;
+            this.columns = [
+                { name: 'rendRed', label: isPortraitMode ? 'Rend. red.' :'Rendement Reducteur', align: 'left', field: 'rendRed' },
+                { name: 'rendAlt', label:isPortraitMode ? 'Rend. alt.' : 'Rendement alternateur', align: 'left', field: 'rendAlt' },
+                { name: 'pElec', label: isPortraitMode ? 'P. élec.' :'Puissance électrique', align: 'left', field: 'pElec' }
+            ];
+            return this.columns;
+        },
+
+        computedColumns2() {
+            const isPortraitMode = window.matchMedia("(orientation: portrait)").matches;
+            const columns = [
+                { name: 'gdeur', label: isPortraitMode ? 'Mes.' : 'Mesure', align: 'left' },
+                { name: 'adm', required: true, label: isPortraitMode ? 'Adm.' : 'Admission', align: 'left', field: 'adm' },
+                { name: 'ech', required: true, label: isPortraitMode ? 'Ech.' : 'Echappement', align: 'left', field: 'ech' },
+            ];
+            if (this.rob1Open) {
+                columns.splice(2, 0, { name: 'sout1', label: isPortraitMode ? 'S1' : 'Soutirage 1', align: 'left', field: 'sout1' });
+            }
+            if (this.rob2Open) {
+                columns.splice(3, 0, { name: 'sout2', label: isPortraitMode ? 'S2' : 'Soutirage 2', align: 'left', field: 'sout2' });
+            }
+            if (this.rob3Open) {
+                columns.splice(4, 0, { name: 'sout3', label: isPortraitMode ? 'S3' : 'Soutirage 3', align: 'left', field: 'sout3' });
+            }
+            return columns;
+        },
+
+        computedRows() {
+            return [
+                {
+                    "rendRed": this.data[5].rendRed,
+                    "rendAlt": this.data[6].rendAlt,
+                    "pElec": this.data[7].pElec,
+                }
+            ];
+        },
+
+        computedRows2() {
+            const isPortraitMode = window.matchMedia("(orientation: portrait)").matches;
+            const rows = [
+                {
+                    "gdeur": isPortraitMode? "P (b. abs)" : "Pression (bar abs)",
+                    "adm": this.data[0].P,
+                    "ech": this.data[4].P,
+                },
+                {
+                    "gdeur": isPortraitMode? "T (°C)" : "Température (°C)",
+                    "adm": this.data[0].T,
+                    "ech": this.data[4].T,
+                },
+                {
+                    "gdeur": isPortraitMode? "Q (T/h)" : "Débit Massique (T/h)",
+                    "adm": this.data[0].Q,
+                    "ech": "/"
+                }
+            ];
+            if (this.rob1Open) {
+                rows[0]["sout1"] = this.data[1].P;
+                rows[1]["sout1"] = this.data[1].T;
+                rows[2]["sout1"] = this.data[1].Q;
+            }
+            if (this.rob2Open) {
+                rows[0]["sout2"] = this.data[2].P;
+                rows[1]["sout2"] = this.data[2].T;
+                rows[2]["sout2"] = this.data[2].Q;
+            }
+            if (this.rob3Open) {
+                rows[0]["sout3"] = this.data[3].P;
+                rows[1]["sout3"] = this.data[3].T;
+                rows[2]["sout3"] = this.data[3].Q;
+            }
+            return rows;
+        },
+
+        computedPoints() {
+            let dataPoints = [[
+                {   tooltipLabel: "Admission",
+                    x:this.data[0].s,
+                    y:this.data[0].h
+                },
+                {  tooltipLabel: "Soutirage 1",
+                    x:this.data[1].s,
+                    y:this.data[1].h
+                },
+                {tooltipLabel: "Soutirage 2",
+                    x:this.data[2].s,
+                    y:this.data[2].h
+                },
+                {tooltipLabel: "Soutirage 3",
+                    x:this.data[3].s,
+                    y:this.data[3].h
+                },
+                {tooltipLabel: "Echappement",
+                    x:this.data[4].s,
+                    y:this.data[4].h
+                }],
+                [{tooltipLabel: "Soutirage 1 iso",
+                    x:this.data[1].s_iso,
+                    y:this.data[1].h_iso
+                },
+                {tooltipLabel: "Soutirage 2 iso",
+                    x:this.data[2].s_iso,
+                    y:this.data[2].h_iso
+                },              
+                {tooltipLabel: "Soutirage 3 iso",
+                    x:this.data[3].s_iso,
+                    y:this.data[3].h_iso
+                },               
+                {
+                tooltipLabel: "Echappement iso",
+                    x:this.data[4].s_iso,
+                    y:this.data[4].h_iso
+                }]
+            ];
+        return dataPoints;
+        } 
+    },
+
+    methods: {
+
+        handleOrientationChange() {
+            this.computedColumns;
+        },
+
+        iapwsReset(dataIndex) {
+            this.data[dataIndex].s = 0;
+            this.data[dataIndex].s_iso = 0; 
+            this.data[dataIndex].h = 0;
+            this.data[dataIndex].h_iso = 0;
+        },
+
+        handleClickSout(dataIndex) {
+            const rob1Element = document.getElementById('rob1Label'); 
+            const rob2Element = document.getElementById('rob2Label'); 
+            const rob3Element = document.getElementById('rob3Label');
+            const btnSout1Element = document.getElementById('btnSout1');  
+            const btnSout2Element = document.getElementById('btnSout2'); 
+            const btnSout3Element = document.getElementById('btnSout3'); 
+            if (dataIndex === 1){
+                this.rob1Open = !this.rob1Open;
+                rob1Element.style.background = this.rob1Open ? '#21ba45' : '';
+                rob1Element.style.transform = this.rob1Open ? 'rotate(90deg)' : '';
+                btnSout1Element.disabled = !this.rob1Open;
+                rob2Element.disabled=!this.rob1Open;
+                if (this.rob1Open){
+                    this.handleShowModal(1);
+                };
+                if (!this.rob1Open) {
+                    rob2Element.style.background = '';
+                    rob2Element.style.transform =  '';
+                    this.rob2Open = false;
+                    btnSout2Element.disabled = true; 
+                    rob3Element.style.background = '';
+                    rob3Element.style.transform =  '';
+                    this.rob3Open = false;
+                    btnSout3Element.disabled = true; 
+                    this.iapwsReset(1);
+                    this.iapwsReset(2);
+                    this.iapwsReset(3);
+                }
+            }
+            else if ((dataIndex === 2) && (this.rob1Open)) {
+                this.rob2Open = !this.rob2Open;
+                rob2Element.style.background = this.rob2Open ? '#21ba45' : '';
+                rob2Element.style.transform = this.rob2Open ? 'rotate(90deg)' : '';
+                btnSout2Element.disabled = !this.rob2Open;
+                if (this.rob2Open){
+                    this.handleShowModal(2);
+                };
+                if (!this.rob2Open) {
+                    rob3Element.style.background = '';
+                    rob3Element.style.transform =  '';
+                    this.rob3Open = false;
+                    btnSout3Element.disabled = true;
+                    this.iapwsReset(2);
+                    this.iapwsReset(3); 
+                }
+            }
+            else if ((dataIndex === 3) && (this.rob2Open)) {
+                this.rob3Open = !this.rob3Open;
+                rob3Element.style.background = this.rob3Open ? '#21ba45' : '';
+                rob3Element.style.transform = this.rob3Open ? 'rotate(90deg)' : '';
+                btnSout3Element.disabled = !this.rob3Open;
+                if (this.rob3Open){
+                    this.handleShowModal(3);
+                };
+                if (!this.rob3Open) {
+                    this.iapwsReset(3); 
+                }
+            }
+        },
+
+        handleShowModal(dataIndex) {
+            this.dataIndex = dataIndex;
+            this.measurementRecord = true;        
+        },
+    
+
+        handleCancel(dataIndex) {
+            if (dataIndex === 0) {
+                this.data[dataIndex].P = null;
+                this.data[dataIndex].T = null;
+                this.data[dataIndex].Q = null;
+            } else if ([1,2,3].includes(dataIndex)) {
+                this.data[dataIndex].P = "";
+                this.data[dataIndex].T = "";
+                this.data[dataIndex].Q = "";
+                this.handleClickSout(dataIndex);
+            } else if (dataIndex === 4) {
+                this.data[dataIndex].P = "";
+                this.data[dataIndex].T = "";
+            } else if (dataIndex === 5){
+                this.data[dataIndex].rendRed = 0.98;
+            } else if (dataIndex === 6){
+                this.data[dataIndex].rendAlt = 0.974;
+            } else if (dataIndex === 7){
+                this.data[dataIndex].pElec = "";
+            }
+                this.measurementRecord = false;
+        },
+
+        handleOk() {
+            this.measurementRecord = false;
+        },
+
+        loadVal(){
+            this.data[0].P = 45.16,
+            this.data[0].T = 360.4,
+            this.data[0].Q = 87.6,
+
+            this.data[1].P = 8.21,
+            this.data[1].T = 188.1,
+            this.data[1].Q = 2.56,
+
+            this.data[2].P = 3.02,
+            this.data[2].T = 130.6,
+            this.data[2].Q = 6.87,
+
+            this.data[3].P = 1,
+            this.data[3].T = 100,
+            this.data[3].Q = 0,
+
+            this.data[4].P = 0.102,
+            this.data[4].T = 46,
+
+            this.data[5].rendRed = 0.98,
+            this.data[6].rendAlt = 0.974,
+            this.data[7].pElec = 19.2717
+        },
+
+        soutirage(dataIndex) {
+
+            let soutP = 0;
+            const soutT = parseFloat(this.data[dataIndex].T);
+            
+            if (NeutriumJS.thermo.IAPWS97.PT.r4_P_Tsat(P_MPa(parseFloat(this.data[dataIndex].P))) < T_K(soutT)){
+                soutP = P_MPa(parseFloat(this.data[dataIndex].P));
+            } else {
+                soutP = NeutriumJS.thermo.IAPWS97.PT.r4_T_Psat(T_K(soutT));
+            }
+            
+            const soutQ = parseFloat(this.data[dataIndex].Q);
+
+            let result = NeutriumJS.thermo.IAPWS97.PT.r2(soutP, T_K(soutT));
+
+            let h = result.h;
+            let s = result.s;
+
+            let s_iso = this.data[dataIndex-1].s;
+
+            let T_iso = 0
+            if (NeutriumJS.thermo.IAPWS97.PS.solve(soutP, s_iso).t < NeutriumJS.thermo.IAPWS97.PT.r4_P_Tsat(soutP)){
+                T_iso = NeutriumJS.thermo.IAPWS97.PT.r4_P_Tsat(soutP);
+            } else {
+                T_iso = NeutriumJS.thermo.IAPWS97.PS.solve(soutP, s_iso).t;
+            };
+
+            let h_iso = 0;
+            if (T_iso > NeutriumJS.thermo.IAPWS97.PT.r4_P_Tsat(soutP)) {
+                h_iso = NeutriumJS.thermo.IAPWS97.PT.r2(soutP, T_iso).h;
+            } else {
+                h_iso = h_liq_vap(T_iso, s_iso);
+            }
+
+            this.data[dataIndex].h = h;
+            this.data[dataIndex].h_iso = h_iso;
+            this.data[dataIndex].s = s;
+            this.data[dataIndex].s_iso = s_iso;
+
+            this.data[4].s_iso = this.data[dataIndex].s;
+        },
+
+
+        turbine(){
+
+            const titleSout = {
+                    1:['Soutirage 1', 'sout1P','sout1T', 'sout1Q'],
+                    2:['Soutirage 2', 'sout2P','sout2T', 'sout2Q'],
+                    3:['Soutirage 3', 'sout3P','sout3T', 'sout3Q'],
+                    };
+
+            const admT = parseFloat(this.data[0].T)
+            const admP = parseFloat(this.data[0].P)
+            const admQ = parseFloat(this.data[0].Q)
+            const echT = parseFloat(this.data[4].T)
+            const echP = parseFloat(this.data[4].P)
+
+            const admResult = NeutriumJS.thermo.IAPWS97.PT.solve(P_MPa(admP), T_K(admT));
+
+            const h_adm = admResult.h;
+            const s_adm = admResult.s;
+
+            const echResult = NeutriumJS.thermo.IAPWS97.PT.solve(P_MPa(echP), T_K(echT));
+
+            const h_ech = echResult.h;
+            const s_ech = echResult.s;
+
+            this.data[0].s = s_adm;
+            this.data[0].h = h_adm;
+            this.data[4].s = s_ech;
+            this.data[4].h = h_ech;
+            this.data[4].s_iso = s_adm;
+
+            let list_h = [h_adm];
+            let list_h_iso = [h_adm];
+            let list_q = [admQ];
+
+            const nbSoutOpen = [this.rob1Open, this.rob2Open,this.rob3Open];
+            const trueCount = nbSoutOpen.filter(Boolean).length;
+
+            let echQ = admQ;
+
+            nbSoutOpen.forEach((value, index) => {
+                if (value) {
+                    this.dataIndex = index + 1
+                    this.soutirage(this.dataIndex);
+                    echQ = echQ - this.data[this.dataIndex].Q;
+
+                    list_q.push(this.data[this.dataIndex].Q);
+                    list_h.push(this.data[this.dataIndex].h);
+                    list_h_iso.push(this.data[this.dataIndex].h_iso);
+                }
+            });
+
+            const s_iso_echap = this.data[4].s_iso;
+
+            const h_iso_echap = h_liq_vap(T_K(echT), s_iso_echap);
+
+            this.data[4].h_iso = h_iso_echap
+
+            list_h.push(h_ech);
+            list_h_iso.push(h_iso_echap);
+            list_q.push(echQ);
+
+            let contrib_rend = 0;
+
+            for (let i = 0; i <= trueCount; i++) {
+                let substractValue=0;
+                substractValue = list_q.slice(0, i+1).reduce((acc, val) => acc - val, list_q[0]);
+                contrib_rend += (list_h[i] - list_h_iso[i+1]) * ( list_q[0] + substractValue);
+            }
+
+            const rendRed = parseFloat(this.data[5].rendRed);
+            const rendAlt = parseFloat(this.data[6].rendAlt);
+            const pElec = parseFloat(this.data[7].pElec);
+
+            const rend_isentropique = pElec * (10 / (0.00277 * contrib_rend));
+
+            this.rendementTurbine = (rend_isentropique / (rendAlt * rendRed) * 100).toFixed(2)
+            this.rendement = (rend_isentropique * 100).toFixed(2)
+            this.computedPoints;
+            this.createChart("line-chart");
+        },
+
+        createChart (chartId) {
+            const ctx = document.getElementById(chartId)
+            
+            const existingChart = Chart.getChart(ctx);
+            if (existingChart) {
+                existingChart.destroy();
+            }
+
+            const myChart = new Chart(ctx, {
+                    data: {
+                        datasets: [{
+                            type : 'scatter',
+                            data: this.computedPoints[0],
+                            borderColor: '#c10015',
+                            backgroundColor: '#c10015',
+                            elements: {
+                                point: {
+                                    radius: 2,  
+                                },  
+                            },   
+                        },
+                        {
+                            type : 'scatter',
+                            data: this.computedPoints[1],
+                            borderColor: '#21ba45',
+                            backgroundColor: '#21ba45',
+                            elements: {
+                                point: {
+                                    radius: 2,
+                                    
+                                },   
+                            },    
+                        },
+                        {
+                            type : 'line',
+                            data:[{'x': 5.21088783, 'y': 2563.592004},
+                                {'x': 5.22450023, 'y': 2570.272057},
+                                {'x': 5.23783319, 'y': 2576.744789},
+                                {'x': 5.25090011, 'y': 2583.019347},
+                                {'x': 5.26371373, 'y': 2589.104407},
+                                {'x': 5.27628614, 'y': 2595.008189},
+                                {'x': 5.28862882, 'y': 2600.738486},
+                                {'x': 5.30075265, 'y': 2606.302679},
+                                {'x': 5.31266795, 'y': 2611.707764},
+                                {'x': 5.32438449, 'y': 2616.960363},
+                                {'x': 5.33591156, 'y': 2622.066748},
+                                {'x': 5.34725795, 'y': 2627.032852},
+                                {'x': 5.35843196, 'y': 2631.864291},
+                                {'x': 5.36944147, 'y': 2636.566379},
+                                {'x': 5.38029395, 'y': 2641.144137},
+                                {'x': 5.39099644, 'y': 2645.602316},
+                                {'x': 5.40155562, 'y': 2649.945405},
+                                {'x': 5.4119778, 'y': 2654.177649},
+                                {'x': 5.42226895, 'y': 2658.303057},
+                                {'x': 5.4324347, 'y': 2662.32542},
+                                {'x': 5.4424804, 'y': 2666.248319},
+                                {'x': 5.45241108, 'y': 2670.075138},
+                                {'x': 5.46223151, 'y': 2673.809077},
+                                {'x': 5.47194621, 'y': 2677.45316},
+                                {'x': 5.48155944, 'y': 2681.010248},
+                                {'x': 5.49107522, 'y': 2684.483045},
+                                {'x': 5.50049739, 'y': 2687.874112},
+                                {'x': 5.50982956, 'y': 2691.185872},
+                                {'x': 5.51907516, 'y': 2694.420622},
+                                {'x': 5.52823743, 'y': 2697.580539},
+                                {'x': 5.53731945, 'y': 2700.667687},
+                                {'x': 5.54632415, 'y': 2703.684027},
+                                {'x': 5.55525432, 'y': 2706.631419},
+                                {'x': 5.56411259, 'y': 2709.511635},
+                                {'x': 5.57290149, 'y': 2712.32636},
+                                {'x': 5.5816234, 'y': 2715.077199},
+                                {'x': 5.59028063, 'y': 2717.765683},
+                                {'x': 5.59887535, 'y': 2720.393273},
+                                {'x': 5.60740966, 'y': 2722.961365},
+                                {'x': 5.61588555, 'y': 2725.471296},
+                                {'x': 5.62430494, 'y': 2727.924344},
+                                {'x': 5.63266968, 'y': 2730.321735},
+                                {'x': 5.64098152, 'y': 2732.664647},
+                                {'x': 5.64924217, 'y': 2734.954207},
+                                {'x': 5.65745325, 'y': 2737.191505},
+                                {'x': 5.66561636, 'y': 2739.377584},
+                                {'x': 5.673733, 'y': 2741.513452},
+                                {'x': 5.68180466, 'y': 2743.600081},
+                                {'x': 5.68983273, 'y': 2745.638407},
+                                {'x': 5.69781861, 'y': 2747.629336},
+                                {'x': 5.70576362, 'y': 2749.573743},
+                                {'x': 5.71366904, 'y': 2751.472472},
+                                {'x': 5.72153614, 'y': 2753.326344},
+                                {'x': 5.72936612, 'y': 2755.13615},
+                                {'x': 5.73716017, 'y': 2756.902659},
+                                {'x': 5.74491943, 'y': 2758.626615},
+                                {'x': 5.75264501, 'y': 2760.308741},
+                                {'x': 5.76033801, 'y': 2761.949736},
+                                {'x': 5.76799947, 'y': 2763.550282},
+                                {'x': 5.77563043, 'y': 2765.111038},
+                                {'x': 5.78323188, 'y': 2766.632646},
+                                {'x': 5.79080482, 'y': 2768.115729},
+                                {'x': 5.79835018, 'y': 2769.560892},
+                                {'x': 5.8058689, 'y': 2770.968724},
+                                {'x': 5.81336188, 'y': 2772.339798},
+                                {'x': 5.82083003, 'y': 2773.674671},
+                                {'x': 5.82827418, 'y': 2774.973883},
+                                {'x': 5.83569521, 'y': 2776.237963},
+                                {'x': 5.84309391, 'y': 2777.467422},
+                                {'x': 5.85047112, 'y': 2778.66276},
+                                {'x': 5.85782761, 'y': 2779.824462},
+                                {'x': 5.86516416, 'y': 2780.953003},
+                                {'x': 5.87248151, 'y': 2782.048842},
+                                {'x': 5.87978042, 'y': 2783.11243},
+                                {'x': 5.88706161, 'y': 2784.144202},
+                                {'x': 5.89432577, 'y': 2785.144585},
+                                {'x': 5.90157361, 'y': 2786.113996},
+                                {'x': 5.90880581, 'y': 2787.052838},
+                                {'x': 5.91602303, 'y': 2787.961508},
+                                {'x': 5.92322592, 'y': 2788.84039},
+                                {'x': 5.93041514, 'y': 2789.689861},
+                                {'x': 5.9375913, 'y': 2790.510288},
+                                {'x': 5.94475503, 'y': 2791.302029},
+                                {'x': 5.95190693, 'y': 2792.065434},
+                                {'x': 5.9590476, 'y': 2792.800844},
+                                {'x': 5.96617763, 'y': 2793.508595},
+                                {'x': 5.97329759, 'y': 2794.189013},
+                                {'x': 5.98040806, 'y': 2794.842417},
+                                {'x': 5.98750958, 'y': 2795.46912},
+                                {'x': 5.99460273, 'y': 2796.069426},
+                                {'x': 6.00168802, 'y': 2796.643636},
+                                {'x': 6.00876601, 'y': 2797.192043},
+                                {'x': 6.01583722, 'y': 2797.714933},
+                                {'x': 6.02290217, 'y': 2798.212587},
+                                {'x': 6.02996138, 'y': 2798.685281},
+                                {'x': 6.03701535, 'y': 2799.133286},
+                                {'x': 6.04406459, 'y': 2799.556866},
+                                {'x': 6.0511096, 'y': 2799.956282},
+                                {'x': 6.05815086, 'y': 2800.331788},
+                                {'x': 6.06518887, 'y': 2800.683635},
+                                {'x': 6.0722241, 'y': 2801.01207},
+                                {'x': 6.07925704, 'y': 2801.317335},
+                                {'x': 6.08628815, 'y': 2801.599666},
+                                {'x': 6.09331791, 'y': 2801.859298},
+                                {'x': 6.10034678, 'y': 2802.09646},
+                                {'x': 6.10737522, 'y': 2802.311378},
+                                {'x': 6.11440369, 'y': 2802.504275},
+                                {'x': 6.12143265, 'y': 2802.675369},
+                                {'x': 6.12846255, 'y': 2802.824876},
+                                {'x': 6.13549384, 'y': 2802.953007},
+                                {'x': 6.14252697, 'y': 2803.059972},
+                                {'x': 6.14956237, 'y': 2803.145976},
+                                {'x': 6.1566005, 'y': 2803.211223},
+                                {'x': 6.16364178, 'y': 2803.255911},
+                                {'x': 6.17068667, 'y': 2803.280238},
+                                {'x': 6.17773559, 'y': 2803.284397},
+                                {'x': 6.18478898, 'y': 2803.268581},
+                                {'x': 6.19184727, 'y': 2803.232978},
+                                {'x': 6.1989109, 'y': 2803.177774},
+                                {'x': 6.20598028, 'y': 2803.103153},
+                                {'x': 6.21305586, 'y': 2803.009296},
+                                {'x': 6.22013805, 'y': 2802.896382},
+                                {'x': 6.22722729, 'y': 2802.764588},
+                                {'x': 6.23432399, 'y': 2802.614087},
+                                {'x': 6.24142859, 'y': 2802.445053},
+                                {'x': 6.24854149, 'y': 2802.257655},
+                                {'x': 6.25566314, 'y': 2802.05206},
+                                {'x': 6.26279395, 'y': 2801.828435},
+                                {'x': 6.26993433, 'y': 2801.586942},
+                                {'x': 6.27708471, 'y': 2801.327744},
+                                {'x': 6.28424552, 'y': 2801.051},
+                                {'x': 6.29141717, 'y': 2800.756869},
+                                {'x': 6.29860008, 'y': 2800.445505},
+                                {'x': 6.30579466, 'y': 2800.117063},
+                                {'x': 6.31300135, 'y': 2799.771695},
+                                {'x': 6.32022056, 'y': 2799.409552},
+                                {'x': 6.3274527, 'y': 2799.030782},
+                                {'x': 6.3346982, 'y': 2798.635532},
+                                {'x': 6.34195748, 'y': 2798.223948},
+                                {'x': 6.34923096, 'y': 2797.796173},
+                                {'x': 6.35651906, 'y': 2797.352349},
+                                {'x': 6.36382219, 'y': 2796.892617},
+                                {'x': 6.37114079, 'y': 2796.417115},
+                                {'x': 6.37847526, 'y': 2795.925982},
+                                {'x': 6.38582604, 'y': 2795.419351},
+                                {'x': 6.39319354, 'y': 2794.897359},
+                                {'x': 6.40057819, 'y': 2794.360137},
+                                {'x': 6.40798042, 'y': 2793.807818},
+                                {'x': 6.41540064, 'y': 2793.24053},
+                                {'x': 6.42283928, 'y': 2792.658403},
+                                {'x': 6.43029677, 'y': 2792.061564},
+                                {'x': 6.43777354, 'y': 2791.450138},
+                                {'x': 6.44527001, 'y': 2790.82425},
+                                {'x': 6.45278662, 'y': 2790.184023},
+                                {'x': 6.46032378, 'y': 2789.529578},
+                                {'x': 6.46788195, 'y': 2788.861037},
+                                {'x': 6.47546153, 'y': 2788.178518},
+                                {'x': 6.48306298, 'y': 2787.482139},
+                                {'x': 6.49068672, 'y': 2786.772017},
+                                {'x': 6.4983332, 'y': 2786.048267},
+                                {'x': 6.50600284, 'y': 2785.311004},
+                                {'x': 6.51369609, 'y': 2784.56034},
+                                {'x': 6.52141339, 'y': 2783.796387},
+                                {'x': 6.52915517, 'y': 2783.019256},
+                                {'x': 6.53692189, 'y': 2782.229057},
+                                {'x': 6.54471398, 'y': 2781.425898},
+                                {'x': 6.5525319, 'y': 2780.609885},
+                                {'x': 6.56037608, 'y': 2779.781126},
+                                {'x': 6.56824699, 'y': 2778.939724},
+                                {'x': 6.57614507, 'y': 2778.085785},
+                                {'x': 6.58407077, 'y': 2777.219411},
+                                {'x': 6.59202456, 'y': 2776.340703},
+                                {'x': 6.60000688, 'y': 2775.449763},
+                                {'x': 6.6080182, 'y': 2774.54669},
+                                {'x': 6.61605898, 'y': 2773.631584},
+                                {'x': 6.62412968, 'y': 2772.704542},
+                                {'x': 6.63223077, 'y': 2771.765661},
+                                {'x': 6.64036272, 'y': 2770.815037},
+                                {'x': 6.648526, 'y': 2769.852765},
+                                {'x': 6.65672107, 'y': 2768.87894},
+                                {'x': 6.66494842, 'y': 2767.893655},
+                                {'x': 6.67320853, 'y': 2766.897003},
+                                {'x': 6.68150187, 'y': 2765.889075},
+                                {'x': 6.68982893, 'y': 2764.869964},
+                                {'x': 6.6981902, 'y': 2763.839758},
+                                {'x': 6.70658617, 'y': 2762.798548},
+                                {'x': 6.71501733, 'y': 2761.746423},
+                                {'x': 6.72348417, 'y': 2760.683471},
+                                {'x': 6.7319872, 'y': 2759.609781},
+                                {'x': 6.74052693, 'y': 2758.525438},
+                                {'x': 6.74910384, 'y': 2757.430531},
+                                {'x': 6.75771847, 'y': 2756.325145},
+                                {'x': 6.76637133, 'y': 2755.209366},
+                                {'x': 6.77506292, 'y': 2754.083279},
+                                {'x': 6.78379378, 'y': 2752.946969},
+                                {'x': 6.79256443, 'y': 2751.800521},
+                                {'x': 6.80137541, 'y': 2750.644018},
+                                {'x': 6.81022724, 'y': 2749.477546},
+                                {'x': 6.81912048, 'y': 2748.301187},
+                                {'x': 6.82805566, 'y': 2747.115025},
+                                {'x': 6.83703334, 'y': 2745.919143},
+                                {'x': 6.84605407, 'y': 2744.713623},
+                                {'x': 6.85511842, 'y': 2743.49855},
+                                {'x': 6.86422694, 'y': 2742.274006},
+                                {'x': 6.87338021, 'y': 2741.040073},
+                                {'x': 6.88257881, 'y': 2739.796834},
+                                {'x': 6.89182332, 'y': 2738.544372},
+                                {'x': 6.90111432, 'y': 2737.282769},
+                                {'x': 6.91045242, 'y': 2736.012109},
+                                {'x': 6.91983822, 'y': 2734.732473},
+                                {'x': 6.92927231, 'y': 2733.443944},
+                                {'x': 6.93875531, 'y': 2732.146605},
+                                {'x': 6.94828785, 'y': 2730.840539},
+                                {'x': 6.95787054, 'y': 2729.52583},
+                                {'x': 6.96750402, 'y': 2728.202559},
+                                {'x': 6.97718894, 'y': 2726.870811},
+                                {'x': 6.98692593, 'y': 2725.530668},
+                                {'x': 6.99671565, 'y': 2724.182215},
+                                {'x': 7.00655876, 'y': 2722.825534},
+                                {'x': 7.01645593, 'y': 2721.46071},
+                                {'x': 7.02640783, 'y': 2720.087826},
+                                {'x': 7.03641514, 'y': 2718.706966},
+                                {'x': 7.04647856, 'y': 2717.318215},
+                                {'x': 7.05659878, 'y': 2715.921657},
+                                {'x': 7.0667765, 'y': 2714.517376},
+                                {'x': 7.07701244, 'y': 2713.105457},
+                                {'x': 7.08730732, 'y': 2711.685984},
+                                {'x': 7.09766186, 'y': 2710.259041},
+                                {'x': 7.1080768, 'y': 2708.824715},
+                                {'x': 7.11855288, 'y': 2707.383089},
+                                {'x': 7.12909086, 'y': 2705.934247},
+                                {'x': 7.13969149, 'y': 2704.478276},
+                                {'x': 7.15035554, 'y': 2703.015259},
+                                {'x': 7.16108378, 'y': 2701.545282},
+                                {'x': 7.171877, 'y': 2700.068428},
+                                {'x': 7.182736, 'y': 2698.584783},
+                                {'x': 7.19366156, 'y': 2697.094431},
+                                {'x': 7.2046545, 'y': 2695.597456},
+                                {'x': 7.21571564, 'y': 2694.093942},
+                                {'x': 7.22684579, 'y': 2692.583973},
+                                {'x': 7.2380458, 'y': 2691.067633},
+                                {'x': 7.2493165, 'y': 2689.545006},
+                                {'x': 7.26065874, 'y': 2688.016174},
+                                {'x': 7.27207338, 'y': 2686.48122},
+                                {'x': 7.28356129, 'y': 2684.940228},
+                                {'x': 7.29512335, 'y': 2683.393278},
+                                {'x': 7.30676044, 'y': 2681.840454},
+                                {'x': 7.31847344, 'y': 2680.281836},
+                                {'x': 7.33026327, 'y': 2678.717506},
+                                {'x': 7.34213083, 'y': 2677.147543},
+                                {'x': 7.35407705, 'y': 2675.572029},
+                                {'x': 7.36610285, 'y': 2673.991043},
+                                {'x': 7.37820917, 'y': 2672.404663},
+                                {'x': 7.39039695, 'y': 2670.812969},
+                                {'x': 7.40266715, 'y': 2669.216039},
+                                {'x': 7.41502074, 'y': 2667.613949},
+                                {'x': 7.4274587, 'y': 2666.006778},
+                                {'x': 7.43998199, 'y': 2664.394601},
+                                {'x': 7.45259163, 'y': 2662.777493},
+                                {'x': 7.4652886, 'y': 2661.155531},
+                                {'x': 7.47807393, 'y': 2659.528788},
+                                {'x': 7.49094863, 'y': 2657.897339},
+                                {'x': 7.50391375, 'y': 2656.261256},
+                                {'x': 7.51697031, 'y': 2654.620612},
+                                {'x': 7.53011938, 'y': 2652.97548},
+                                {'x': 7.54336201, 'y': 2651.325929},
+                                {'x': 7.55669928, 'y': 2649.672031},
+                                {'x': 7.57013228, 'y': 2648.013855},
+                                {'x': 7.5836621, 'y': 2646.351471},
+                                {'x': 7.59728983, 'y': 2644.684946},
+                                {'x': 7.61101661, 'y': 2643.01435},
+                                {'x': 7.62484356, 'y': 2641.339748},
+                                {'x': 7.63877181, 'y': 2639.661208},
+                                {'x': 7.65280252, 'y': 2637.978794},
+                                {'x': 7.66693685, 'y': 2636.292573},
+                                {'x': 7.68117598, 'y': 2634.602607},
+                                {'x': 7.69552108, 'y': 2632.908961},
+                                {'x': 7.70997335, 'y': 2631.211698},
+                                {'x': 7.72453402, 'y': 2629.510879},
+                                {'x': 7.7392043, 'y': 2627.806566},
+                                {'x': 7.75398542, 'y': 2626.098821},
+                                {'x': 7.76887863, 'y': 2624.387702},
+                                {'x': 7.7838852, 'y': 2622.673269},
+                                {'x': 7.7990064, 'y': 2620.955582},
+                                {'x': 7.81424352, 'y': 2619.234697},
+                                {'x': 7.82959786, 'y': 2617.510672},
+                                {'x': 7.84507073, 'y': 2615.783564},
+                                {'x': 7.86066347, 'y': 2614.053429},
+                                {'x': 7.87637743, 'y': 2612.320321},
+                                {'x': 7.89221395, 'y': 2610.584295},
+                                {'x': 7.90817441, 'y': 2608.845405},
+                                {'x': 7.92426021, 'y': 2607.103703},
+                                {'x': 7.94047274, 'y': 2605.359242},
+                                {'x': 7.95681342, 'y': 2603.612074},
+                                {'x': 7.9732837, 'y': 2601.862249},
+                                {'x': 7.98988502, 'y': 2600.109817},
+                                {'x': 8.00661884, 'y': 2598.354829},
+                                {'x': 8.02348666, 'y': 2596.597331},
+                                {'x': 8.04048998, 'y': 2594.837373},
+                                {'x': 8.05763031, 'y': 2593.075002},
+                                {'x': 8.07490918, 'y': 2591.310264},
+                                {'x': 8.09232816, 'y': 2589.543205},
+                                {'x': 8.10988881, 'y': 2587.773869},
+                                {'x': 8.12759272, 'y': 2586.002302},
+                                {'x': 8.14544149, 'y': 2584.228547},
+                                {'x': 8.16343677, 'y': 2582.452647},
+                                {'x': 8.18158019, 'y': 2580.674643},
+                                {'x': 8.19987342, 'y': 2578.894578},
+                                {'x': 8.21831814, 'y': 2577.112492},
+                                {'x': 8.23691606, 'y': 2575.328425},
+                                {'x': 8.25566891, 'y': 2573.542417},
+                                {'x': 8.27457844, 'y': 2571.754506},
+                                {'x': 8.29364642, 'y': 2569.96473},
+                                {'x': 8.31287463, 'y': 2568.173126},
+                                {'x': 8.3322649, 'y': 2566.379731},
+                                {'x': 8.35181907, 'y': 2564.584582},
+                                {'x': 8.37153898, 'y': 2562.787713},
+                                {'x': 8.39142653, 'y': 2560.989159},
+                                {'x': 8.41148363, 'y': 2559.188955},
+                                {'x': 8.43171221, 'y': 2557.387133},
+                                {'x': 8.45211423, 'y': 2555.583728},
+                                {'x': 8.47269167, 'y': 2553.778771},
+                                {'x': 8.49344656, 'y': 2551.972294},
+                                {'x': 8.51438092, 'y': 2550.164329},
+                                {'x': 8.53549683, 'y': 2548.354907},
+                                {'x': 8.55679638, 'y': 2546.544059},
+                                {'x': 8.5782817, 'y': 2544.731814},
+                                {'x': 8.59995493, 'y': 2542.918202},
+                                {'x': 8.62181827, 'y': 2541.103252},
+                                {'x': 8.64387392, 'y': 2539.286994},
+                                {'x': 8.66612415, 'y': 2537.469456},
+                                {'x': 8.68857122, 'y': 2535.650667},
+                                {'x': 8.71121744, 'y': 2533.830655},
+                                {'x': 8.73406517, 'y': 2532.009447},
+                                {'x': 8.75711679, 'y': 2530.187072},
+                                {'x': 8.78037471, 'y': 2528.363556},
+                                {'x': 8.80384137, 'y': 2526.538929},
+                                {'x': 8.82751928, 'y': 2524.713216},
+                                {'x': 8.85141096, 'y': 2522.886445},
+                                {'x': 8.87551897, 'y': 2521.058644},
+                                {'x': 8.89984592, 'y': 2519.229839},
+                                {'x': 8.92439445, 'y': 2517.400058},
+                                {'x': 8.94916724, 'y': 2515.569328},
+                                {'x': 8.97416703, 'y': 2513.737676},
+                                {'x': 8.99939657, 'y': 2511.90513},
+                                {'x': 9.02485869, 'y': 2510.071717},
+                                {'x': 9.05055624, 'y': 2508.237465},
+                                {'x': 9.07649211, 'y': 2506.402401},
+                                {'x': 9.10266926, 'y': 2504.566553},
+                                {'x': 9.12909067, 'y': 2502.729949},
+                                {'x': 9.1557594, 'y': 2500.892618}],
+                            borderColor: '#1976d2',
+                            elements: {
+                                point: {
+                                    radius: 0, // default to disabled in all datasets
+                                    hoverRadius:0
+                                },
+                                line: {
+                                    tension: 10,
+                                    borderCapStyle:"round",
+                                    }
+                            },
+                            animation: false,     
+                        }]
+                    },
+                    options: {
+                        responsive: true, 
+                        aspectRatio : 2/1.5,
+                        scales: {
+                            x: {
+                                title:{display: true, text: "Entropie"},
+                                type:"linear",
+                                min: 4.5,  // Set your desired minimum x-axis value
+                                max: 9.5,  // Set your desired maximum x-axis value
+                            },
+                            y: {
+                                title:{display: true, text: "Enthalpie"},
+                                type:"linear",
+                                min: 1750,  // Set your desired minimum y-axis value
+                                max: 3500,  // Set your desired maximum y-axis value
+                            },
+                        },  
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Diagramme de Mollier'
+                            },
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                filter: function (tooltipItem) {
+                                    return tooltipItem.datasetIndex === 0 || tooltipItem.datasetIndex === 1;
+                                },
+                                callbacks: {
+                                    label: (context) => {
+                                    console.log(context);
+                                        if (context.datasetIndex === 0 || context.datasetIndex === 1) {
+                                            const roundedY = context.raw.y.toFixed(2);
+                                            return `${context.raw.tooltipLabel}, h: ${roundedY}`;
+                                        }
+                                    }
+                                },
+                            }, 
+                        }
+                    }
+                });
+                return myChart
+            }
+        }, 
+    });
+    app.use(Quasar).mount('#app');
+    </script>
+</body>
+</html>
