@@ -321,7 +321,6 @@ function s_sat_vap(T) {
 function h_liq_vap(T, s){
     let A = (h_sat_liq(T) - h_sat_vap(T)) / (s_sat_liq(T) - s_sat_vap(T))  
     let B =  ((s_sat_liq(T) * h_sat_vap(T)) - (s_sat_vap(T) * h_sat_liq(T)))/ (s_sat_liq(T) - s_sat_vap(T))
-    console.log(A, B);
     return ((A * s) + B)
 }
 
@@ -1229,7 +1228,6 @@ const app = Vue.createApp({
                                 },
                                 callbacks: {
                                     label: (context) => {
-                                    console.log(context);
                                         if (context.datasetIndex === 0 || context.datasetIndex === 1) {
                                             const roundedY = context.raw.y.toFixed(2);
                                             return `${context.raw.tooltipLabel}, h: ${roundedY}`;
