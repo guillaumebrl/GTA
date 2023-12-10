@@ -418,12 +418,7 @@ const app = Vue.createApp({
 
 	mounted () {
 	    this.createChart("line-chart");
-        const mathjax = window.MathJax
-        // using setTimeout, which can get the right result
-        setTimeout(function () {
-            mathjax.typeset()
-        }, 1000)
-    },
+	},
 
     computed: {
         computedColumns(){
