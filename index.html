@@ -234,7 +234,15 @@
                                 <p align="justify">Les GTA présents dans certaines usines (e.g. d'incinération) ne possèdent pas de mesure de couple sur les arbres de sortie turbine permettant un calcul direct de la puissance de sortie de la turbine. Le réducteur et l'alternateur seront donc inclus de fait dans la formule, la perte de rendement qui pourrait être mesurée ne permettra pas de distinguer l'origine de la perte entre la turbine et des autres éléments.</p>
                                 <p align="justify">L'expression du rendement présentée dans la publication CEI 953-2 la mieux adaptée aux turbines industrielles simples est le rendement thermodynamique. Défini comme le rapport de la puissance de sortie à la puissance isentropique (produit du débit massique de vapeur et de la chute d'enthalpie isentropique entre la vapeur initiale et la pression d'échappement), la valeur numérique du rendement thermodynamique ne dépend pas des conditions initiales de vapeur et d'échappement, mais est l'indication de l'efficacité de la détente seulement (aux rendements du réducteur et de l'alternateur près)</p>
                                 <p align="justify" class="image-paragraph"><img src="./res/eq1.svg" alt="Equation 1"></p> 
-                                
+                                <p> où :
+                                    <ul>
+                                    <li><img src="./res/eq4.svg" alt="Equation 4"> : Puissance électrique en sortie de l'alternateur</li>
+                                    <li><img src="./res/eq3.svg" alt="Equation 3"> : le débit de vapeur au point considéré</li>
+                                    <li><img src="./res/eq2.svg" alt="Equation 2"> : la chute d'enthalpie isentropique de la vapeur entre les points p et q.</li>
+                                    </ul>
+                                </p>
+                                <p align="justify">Cette formule impose de connaître, en chaque point caractéristique de la turbine (admission, échappement, soutirages), la pression absolue, la température et le débit massique de la vapeur, ainsi que la puissance de sortie mesurée aux bornes de l'alternateur.
+                                </p>
                             </q-card-section>
                             <q-separator />
                             <q-card-actions align="right">
