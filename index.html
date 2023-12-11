@@ -437,12 +437,16 @@ const app = Vue.createApp({
 	},
 
     computed: {
+        isPortraitMode() {
+        return window.matchMedia("(orientation: portrait)").matches;
+        },
+        
         computedColumns(){
-            const isPortraitMode = window.matchMedia("(orientation: portrait)").matches;
+            //const isPortraitMode = window.matchMedia("(orientation: portrait)").matches;
             this.columns = [
-                { name: 'rendRed', label: isPortraitMode ? 'Rend. red.' :'Rendement Reducteur', align: 'left', field: 'rendRed' },
-                { name: 'rendAlt', label:isPortraitMode ? 'Rend. alt.' : 'Rendement alternateur', align: 'left', field: 'rendAlt' },
-                { name: 'pElec', label: isPortraitMode ? 'P. élec.' :'Puissance électrique', align: 'left', field: 'pElec' }
+                { name: 'rendRed', label: this.isPortraitMode ? 'Rend. red.' :'Rendement Reducteur', align: 'left', field: 'rendRed' },
+                { name: 'rendAlt', label: this.isPortraitMode ? 'Rend. alt.' : 'Rendement alternateur', align: 'left', field: 'rendAlt' },
+                { name: 'pElec', label: this.isPortraitMode ? 'P. élec.' :'Puissance électrique', align: 'left', field: 'pElec' }
             ];
             return this.columns;
         },
