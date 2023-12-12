@@ -139,7 +139,7 @@
                                     <q-table
                                         flat bordered
                                         :rows="computedRows2"
-                                        :columns="computedColumns2"
+                                        :columns="columns2"
                                         row-key="name"
                                         binary-state-sort
                                         dense
@@ -148,7 +148,7 @@
                                     >
                                     <template v-slot:body="props">
                                         <q-tr :props="props">
-                                            <q-td v-for="col in computedColumns2" :key="col.name" :props="props">
+                                            <q-td v-for="col in columns2" :key="col.name" :props="props">
                                                 {{ props.row[col.name] }}
                                             
                                             </q-td>
@@ -429,46 +429,20 @@ const app = Vue.createApp({
             rob2Open: false, 
             rob3Open: false,
             columns: [],
+            columns2: [],
         } 
     },
 
 	mounted () {
 	    this.createChart("line-chart");
         this.updateColumns();
+        this.updateColumns2();
         // Add event listener for resize event
         window.addEventListener('resize', this.updateColumns);
+        window.addEventListener('resize', this.updateColumns2);
 	},
 
     computed: {
-
-        computedColumns(){
-            //const isPortraitMode = window.matchMedia("(orientation: portrait)").matches;
-            this.columns = [
-                { name: 'rendRed', label: this.isPortraitMode ? 'Rend. red.' :'Rendement Reducteur', align: 'left', field: 'rendRed' },
-                { name: 'rendAlt', label: this.isPortraitMode ? 'Rend. alt.' : 'Rendement alternateur', align: 'left', field: 'rendAlt' },
-                { name: 'pElec', label: this.isPortraitMode ? 'P. élec.' :'Puissance électrique', align: 'left', field: 'pElec' }
-            ];
-            return this.columns;
-        },
-
-        computedColumns2() {
-            const isPortraitMode = window.matchMedia("(orientation: portrait)").matches;
-            const columns = [
-                { name: 'gdeur', label: isPortraitMode ? 'Mes.' : 'Mesure', align: 'left' },
-                { name: 'adm', required: true, label: isPortraitMode ? 'Adm.' : 'Admission', align: 'left', field: 'adm' },
-                { name: 'ech', required: true, label: isPortraitMode ? 'Ech.' : 'Echappement', align: 'left', field: 'ech' },
-            ];
-            if (this.rob1Open) {
-                columns.splice(2, 0, { name: 'sout1', label: isPortraitMode ? 'S1' : 'Soutirage 1', align: 'left', field: 'sout1' });
-            }
-            if (this.rob2Open) {
-                columns.splice(3, 0, { name: 'sout2', label: isPortraitMode ? 'S2' : 'Soutirage 2', align: 'left', field: 'sout2' });
-            }
-            if (this.rob3Open) {
-                columns.splice(4, 0, { name: 'sout3', label: isPortraitMode ? 'S3' : 'Soutirage 3', align: 'left', field: 'sout3' });
-            }
-            return columns;
-        },
 
         computedRows() {
             return [
@@ -563,10 +537,6 @@ const app = Vue.createApp({
 
     methods: {
 
-        handleOrientationChange() {
-            this.computedColumns;
-        },
-
         updateColumns() {
             const isPortraitMode = window.matchMedia("(orientation: portrait)").matches;
             this.columns = [
@@ -574,6 +544,24 @@ const app = Vue.createApp({
                 { name: 'rendAlt', label: isPortraitMode ? 'Rend. alt.' : 'Rendement alternateur', align: 'left', field: 'rendAlt' },
                 { name: 'pElec', label: isPortraitMode ? 'P. élec.' : 'Puissance électrique', align: 'left', field: 'pElec' }
             ];
+        },
+
+        updateColumns2() {
+            const isPortraitMode = window.matchMedia("(orientation: portrait)").matches;
+            this.columns2 = [
+                { name: 'gdeur', label: isPortraitMode ? 'Mes.' : 'Mesure', align: 'left' },
+                { name: 'adm', required: true, label: isPortraitMode ? 'Adm.' : 'Admission', align: 'left', field: 'adm' },
+                { name: 'ech', required: true, label: isPortraitMode ? 'Ech.' : 'Echappement', align: 'left', field: 'ech' },
+            ];
+            if (this.rob1Open) {
+                columns.splice(2, 0, { name: 'sout1', label: isPortraitMode ? 'S1' : 'Soutirage 1', align: 'left', field: 'sout1' });
+            }
+            if (this.rob2Open) {
+                columns.splice(3, 0, { name: 'sout2', label: isPortraitMode ? 'S2' : 'Soutirage 2', align: 'left', field: 'sout2' });
+            }
+            if (this.rob3Open) {
+                columns.splice(4, 0, { name: 'sout3', label: isPortraitMode ? 'S3' : 'Soutirage 3', align: 'left', field: 'sout3' });
+            }
         },
 
         iapwsReset(dataIndex) {
