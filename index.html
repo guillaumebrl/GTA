@@ -225,7 +225,7 @@
                             <q-separator></q-separator>
                             <q-card-section style="max-height: 50vh" class="scroll">
                                 <h5>Généralités</h5>
-                                <p align="justify">La dérive dans le temps du rendement de la turbine est caractéristique de l’état de ses internes (étanchéités des inter-étages et des périphéries des roues, état d'encrassement ou de déformation des ailettages mobiles et aubages fixes).</p>
+                                <p align="justify">La dérive dans le temps du rendement d'une turbine est caractéristique de l’état de ses internes (étanchéités des inter-étages et des périphéries des roues, état d'encrassement ou de déformation des ailettages mobiles et aubages fixes).</p>
                                 <p align="justify">Le suivi de ce rendement permet de consolider un programme de maintenance, et participe, au même titre que les contrôles de suivi traditionnels (analyse vibratoire, analyse d’huile, analyse thermique...) à la maîtrise de l’état de la machine.</p>
                                 <p align="justify">En s’appuyant sur les publications CEI 953-1 et 953-2, "Rules for steam turbine thermal acceptance tests", ce standard propose un mode de mesure du rendement du GTA, et les modalités de mesure.</p>
                                 <h5>Rendement GTA</h5>
@@ -560,6 +560,15 @@ const app = Vue.createApp({
 
         handleOrientationChange() {
             this.computedColumns;
+        },
+
+        updateColumns() {
+            const isPortraitMode = window.matchMedia("(orientation: portrait)").matches;
+            this.columns = [
+                { name: 'rendRed', label: isPortraitMode ? 'Rend. red.' : 'Rendement Reducteur', align: 'left', field: 'rendRed' },
+                { name: 'rendAlt', label: isPortraitMode ? 'Rend. alt.' : 'Rendement alternateur', align: 'left', field: 'rendAlt' },
+                { name: 'pElec', label: isPortraitMode ? 'P. élec.' : 'Puissance électrique', align: 'left', field: 'pElec' }
+            ];
         },
 
         iapwsReset(dataIndex) {
