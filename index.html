@@ -120,7 +120,7 @@
                                         flat
                                         bordered
                                         :rows="computedRows"
-                                        :columns="computedColumns"
+                                        :columns="columns"
                                         binary-state-sort
                                         dense
                                         hide-pagination
@@ -128,7 +128,7 @@
                                     >
                                     <template v-slot:body="props">
                                         <q-tr :props="props">
-                                            <q-td v-for="col in computedColumns" :key="col.name" :props="props">
+                                            <q-td v-for="col in columns" :key="col.name" :props="props">
                                                 {{ props.row[col.name] }}
                                             </q-td>
                                         </q-tr>
@@ -434,13 +434,13 @@ const app = Vue.createApp({
 
 	mounted () {
 	    this.createChart("line-chart");
+        this.updateColumns();
+        // Add event listener for resize event
+        window.addEventListener('resize', this.updateColumns);
 	},
 
     computed: {
-        isPortraitMode() {
-        return window.matchMedia("(orientation: portrait)").matches;
-        },
-        
+
         computedColumns(){
             //const isPortraitMode = window.matchMedia("(orientation: portrait)").matches;
             this.columns = [
