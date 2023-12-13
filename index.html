@@ -554,13 +554,13 @@ const app = Vue.createApp({
                 { name: 'ech', required: true, label: isPortraitMode ? 'Ech.' : 'Echappement', align: 'left', field: 'ech' },
             ];
             if (this.rob1Open) {
-                columns.splice(2, 0, { name: 'sout1', label: isPortraitMode ? 'S1' : 'Soutirage 1', align: 'left', field: 'sout1' });
+                this.columns2.splice(2, 0, { name: 'sout1', label: isPortraitMode ? 'S1' : 'Soutirage 1', align: 'left', field: 'sout1' });
             }
             if (this.rob2Open) {
-                columns.splice(3, 0, { name: 'sout2', label: isPortraitMode ? 'S2' : 'Soutirage 2', align: 'left', field: 'sout2' });
+                this.columns2.splice(3, 0, { name: 'sout2', label: isPortraitMode ? 'S2' : 'Soutirage 2', align: 'left', field: 'sout2' });
             }
             if (this.rob3Open) {
-                columns.splice(4, 0, { name: 'sout3', label: isPortraitMode ? 'S3' : 'Soutirage 3', align: 'left', field: 'sout3' });
+                this.columns2.splice(4, 0, { name: 'sout3', label: isPortraitMode ? 'S3' : 'Soutirage 3', align: 'left', field: 'sout3' });
             }
         },
 
