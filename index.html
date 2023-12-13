@@ -440,6 +440,10 @@ const app = Vue.createApp({
         // Add event listener for resize event
         window.addEventListener('resize', this.updateColumns);
         window.addEventListener('resize', this.updateColumns2);
+        this.$watch('rob1Open', this.updateColumns2);
+        this.$watch('rob2Open', this.updateColumns2);
+        this.$watch('rob3Open', this.updateColumns2);
+},;
 	},
 
     computed: {
