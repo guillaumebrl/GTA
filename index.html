@@ -49,9 +49,12 @@
 <!-- q-card measures -->
                     <div class="col-12 col-md-6 q-pa-sm">
                         <q-card>
-                            <q-card-section>
-                                <div class="text-h6">Relevés</div>
-                            </q-card-section>
+                            <q-card-section class="q-pt-md q-pb-md">
+                                <div class="text-h6 flex justify-between">
+                                  Relevés
+                                  <q-btn round color="primary" size="sm" @click="loadVal()">Test</q-btn>
+                                </div>
+                              </q-card-section>
                             <q-separator inset></q-separator>
                             <q-card-section class="q-pt-none">
                                 <div class="box">
@@ -127,7 +130,8 @@
                                         separator="cell"
                                     >
                                     <template v-slot:body="props">
-                                        <q-tr :props="props">
+                                        <q-tr :props="props"
+                                        :no-hover="true">
                                             <q-td v-for="col in columns" :key="col.name" :props="props">
                                                 {{ props.row[col.name] }}
                                             </q-td>
@@ -147,10 +151,11 @@
                                         separator="cell"
                                     >
                                     <template v-slot:body="props">
-                                        <q-tr :props="props">
+                                        <q-tr :props="props"
+                                                :no-hover="true"
+                                        >
                                             <q-td v-for="col in columns2" :key="col.name" :props="props">
                                                 {{ props.row[col.name] }}
-                                            
                                             </q-td>
                                         </q-tr>
                                         </template>
@@ -158,10 +163,11 @@
                                     </div>
                                 </q-card-section>
                                 <q-card-section>
-                                    <q-btn color="primary" size="sm" @click="loadVal()" label="Valeurs de test"></q-btn>
-                                    <q-btn style="margin-left: 10px;" size="sm" color="primary" @click="turbine()" label="Rendement Isentropique"></q-btn>
-                                    <!--p>vérif valeur sout: {{data}}</p-->
-                                </q-card-section>
+                                    <div class="flex justify-center">
+                                      <q-btn size="sm" color="primary" @click="turbine()">Calcul <br>du rendement Isentropique</q-btn>
+                                    </div>
+                                    <!-- Optional: Add any additional content here -->
+                                  </q-card-section>
 
                         </q-card>
                     </div>
@@ -169,9 +175,11 @@
                     <div class="col-12 col-md-6 q-pa-sm">
                         <q-card>
                             <q-card-section>
-                                <div class="text-h6">Résultats</div>
+                                <div class="text-h6">Résultats
+                                </div>
                             </q-card-section>
                             <q-separator inset></q-separator>
+                            
                             <q-card-section class="q-pt-none">
                                 <div class="row " style=" margin-top: 10px; padding: 10px;">
                                     <div class="col-6 q-pa-sm">
