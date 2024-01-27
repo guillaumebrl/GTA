@@ -173,23 +173,29 @@
                             </q-card-section>
                             <q-separator inset></q-separator>
                             <q-card-section class="q-pt-none">
-                                <div style="margin-top: 10px; padding: 10px;">
-                                <div class="inline bg-secondary rounded-borders"
-                                        style="max-width: 300px" >
-                                
-                                    <div class="fit flex flex-center text-center non-selectable q-pa-md">
-                                        Rendement isentropique<br>{{rendement}} %
-                                      </div>
+                                <div class="row " style=" margin-top: 10px; padding: 10px;">
+                                    <div class="col-6 q-pa-sm">
+                                  <div
+                                    class="bg-secondary text-white rounded-borders"
+                                    style="max-width: 400px"
+                                  >
+                                    <div class="flex flex-center text-center non-selectable">
+                                      Rendement isentropique<br />{{ rendement }} %
+                                    </div>
+                                  </div>
+                                    </div>
+                                    <div class="col-6 col-md-3 q-pa-sm">
+                                  <div
+                                    class="bg-secondary text-white rounded-borders"
+                                    style="max-width: 400px"
+                                  >
+                                    <div class="flex flex-center text-center non-selectable">
+                                      Rendement isentropique turbine<br />{{ rendementTurbine }} %
+                                    </div>
+                                  </div>
+                                    </div>
                                 </div>
-                                <div class="inline bg-secondary rounded-borders"
-                                        style="max-width: 300px"
-                                    >
-                                      <div class="fit flex flex-center text-center non-selectable q-pa-md">
-                                        Rendement isentropique turbine<br>{{rendementTurbine}} %
-                                      </div> 
-                                </div>
-                                </div>
-                            </q-card-section>
+                              </q-card-section>
                             <q-card-section class="q-pt-none">
                                 <div>
                                     <q-responsive :ratio="2/1.5" style=" max-width: 100%;">
