@@ -1,0 +1,1 @@
+### Rendement isentropique de groupe turbo-alternateur
