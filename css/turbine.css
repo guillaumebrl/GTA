@@ -111,7 +111,6 @@ margin-bottom: -40px;
 
 
     .robinetSoutirage1::before {
-    content: "Soutirage 1";
     position: absolute;
     transform: translate(0, 80%);
     font-size: 2vw;

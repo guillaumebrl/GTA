@@ -45,10 +45,10 @@
                     </q-toolbar>
             </q-header>
             <q-page-container>
-                <div class="row" ref="pdfContent">
+                <div class="row" id="pdfContent">
 <!-- q-card measures -->
                     <div class="col-12 col-md-6 q-pa-sm">
-                        <q-card id="measures">
+                            <q-card id="measures">
                             <q-card-section class="q-pt-md q-pb-md">
                                 <div class="text-h6 flex justify-between">
                                   Relevés
@@ -168,9 +168,9 @@
                                     </div>
                                     <!-- Optional: Add any additional content here -->
                                   </q-card-section>
-
                         </q-card>
                     </div>
+                    <div class="html2pdf__page-break"></div>
 <!-- q-card results -->
                     <div class="col-12 col-md-6 q-pa-sm">
                         <q-card id="results">
@@ -210,7 +210,7 @@
                                         <canvas id="line-chart"></canvas>
                                     </q-responsive>
                                 </div>
-                                <!--q-btn size="sm" color="primary" @click="generatePDF()">Generate PDF</q-btn-->
+                                <q-btn size="sm" color="primary" @click="generatePdf()">Générer PDF</q-btn>
                             </q-card-section>
                         </q-card>
 <!-- q-dialog measures -->
@@ -296,6 +296,7 @@
 <script src="./dist/quasar.umd.prod.js"></script>
 <script charset="utf-8" src="./dist/neutriumJS.thermo.IAPWS97.min.js"></script>
 <script src="./dist/chart.js"></script>
+<script src="./dist/html2pdf.js"></script>
 
 <script type="module">
 
@@ -574,6 +575,41 @@ const app = Vue.createApp({
     },
 
     methods: {
+        
+        generatePdf() {
+    // Define options for each element
+    var options = [
+        {
+            elementId: 'measures',
+            scale: 2, // Scale for first element
+            filename: 'myfile1.pdf'
+            // Add any other options as needed
+        },
+        {
+            elementId: 'results',
+            scale: 2, // Scale for second element
+            filename: 'myfile2.pdf'
+            // Add any other options as needed
+        },
+        // Add more options for other elements as needed
+    ];
+
+    // Loop through each option
+    options.forEach(opt => {
+        var element = document.getElementById(opt.elementId);
+        var html2pdfOptions = {
+            margin: 1,
+            filename: opt.filename,
+            image: { type: 'png' },
+            html2canvas: { scale: opt.scale },
+            jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Generate PDF for each element with its respective options
+        html2pdf().from(element).set(html2pdfOptions).save();
+    });
+}
+,
 
         updateColumns() {
             const isPortraitMode = window.matchMedia("(orientation: portrait)").matches;
