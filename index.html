@@ -175,7 +175,7 @@
                     <div class="col-12 col-md-6 q-pa-sm">
                         <q-card id="results">
                             <q-card-section>
-                                <div class="text-h6">Résultats
+                                <div class="text-h6">Résultats {{ currentDate }}
                                 </div>
                             </q-card-section>
                             <q-separator inset></q-separator>
@@ -272,9 +272,9 @@
                                 <p align="justify">Cette formule impose de connaître, en chaque point caractéristique de la turbine (admission, échappement, soutirages), la pression absolue, la température et le débit massique de la vapeur, ainsi que la puissance de sortie mesurée aux bornes de l'alternateur.
                                 </p>
                                 <h5>Version</h5>
-                                <p>V1 du 10/02/2024</p>
-                                <h5>Contributeurs</h5>
-                                <p>Vincent Bril, Guillaume Bril</p>
+                                <p>V1 - 10/02/2024</p>
+                                <h5>Conception</h5>
+                                <p>Vincent & Guillaume Bril</p>
                                 <h5>Licence</h5>
                                 <p><a href="http://creativecommons.org/licenses/by/4.0/legalcode">CC BY 4.0 DEED</a></p>
                                 <p>Utilisation de la librairie <a href="https://github.com/NativeDynamics/NeutriumJS.thermo.IAPWS97.git">NativeDynamics</a></p>
@@ -466,6 +466,7 @@ const app = Vue.createApp({
             rob3Open: false,
             columns: [],
             columns2: [],
+            currentDate: new Date().toLocaleDateString()
         } 
     },
 
