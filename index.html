@@ -170,7 +170,6 @@
                                   </q-card-section>
                         </q-card>
                     </div>
-                    <div class="html2pdf__page-break"></div>
 <!-- q-card results -->
                     <div class="col-12 col-md-6 q-pa-sm">
                         <q-card id="results">
@@ -583,13 +582,13 @@ const app = Vue.createApp({
         {
             elementId: 'measures',
             scale: 2, // Scale for first element
-            filename: 'myfile1.pdf'
+            filename: 'mesures.pdf' // Choose a single filename for the entire PDF
             // Add any other options as needed
         },
         {
             elementId: 'results',
             scale: 2, // Scale for second element
-            filename: 'myfile2.pdf'
+            filename: 'résultats.pdf' // Use the same filename for both elements
             // Add any other options as needed
         },
         // Add more options for other elements as needed
@@ -609,8 +608,7 @@ const app = Vue.createApp({
         // Generate PDF for each element with its respective options
         html2pdf().from(element).set(html2pdfOptions).save();
     });
-}
-,
+},
 
         updateColumns() {
             const isPortraitMode = window.matchMedia("(orientation: portrait)").matches;
