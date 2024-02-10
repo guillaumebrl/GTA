@@ -45,10 +45,10 @@
                     </q-toolbar>
             </q-header>
             <q-page-container>
-                <div class="row">
+                <div class="row" ref="pdfContent">
 <!-- q-card measures -->
                     <div class="col-12 col-md-6 q-pa-sm">
-                        <q-card>
+                        <q-card id="measures">
                             <q-card-section class="q-pt-md q-pb-md">
                                 <div class="text-h6 flex justify-between">
                                   Relevés
@@ -173,7 +173,7 @@
                     </div>
 <!-- q-card results -->
                     <div class="col-12 col-md-6 q-pa-sm">
-                        <q-card>
+                        <q-card id="results">
                             <q-card-section>
                                 <div class="text-h6">Résultats
                                 </div>
@@ -204,12 +204,13 @@
                                     </div>
                                 </div>
                               </q-card-section>
-                            <q-card-section class="q-pt-none">
+                            <q-card-section class="q-pt-none" ref="results">
                                 <div>
                                     <q-responsive :ratio="2/1.5" style=" max-width: 100%;">
                                         <canvas id="line-chart"></canvas>
                                     </q-responsive>
                                 </div>
+                                <q-btn size="sm" color="primary" @click="generatePDF()">Generate PDF</q-btn>
                             </q-card-section>
                         </q-card>
 <!-- q-dialog measures -->
@@ -254,7 +255,7 @@
                                 <h5>Généralités</h5>
                                 <p align="justify">La dérive dans le temps du rendement d'une turbine est caractéristique de l’état de ses internes (étanchéités des inter-étages et des périphéries des roues, état d'encrassement ou de déformation des ailettages mobiles et aubages fixes).</p>
                                 <p align="justify">Le suivi de ce rendement permet de consolider un programme de maintenance, et participe, au même titre que les contrôles de suivi traditionnels (analyse vibratoire, analyse d’huile, analyse thermique...) à la maîtrise de l’état de la machine.</p>
-                                <p align="justify">En s’appuyant sur les publications CEI 953-1 et 953-2, "Rules for steam turbine thermal acceptance tests", ce standard propose un mode de mesure du rendement du GTA, et les modalités de mesure.</p>
+                                <p align="justify">En s’appuyant sur les publications CEI 953-1 et 953-2, "Rules for steam turbine thermal acceptance tests", cette page propose un mode de mesure du rendement du GTA, et les modalités de mesure.</p>
                                 <h5>Rendement GTA</h5>
                                 <p align="justify">Le rendement d'une installation est défini par le rapport de l'énergie sortante/énergie entrante.
                                 La variation de ce rendement est significative d'une évolution de la différence entre l'énergie entrante et l'énergie sortante, soit les pertes.</p>
@@ -270,6 +271,8 @@
                                 </p>
                                 <p align="justify">Cette formule impose de connaître, en chaque point caractéristique de la turbine (admission, échappement, soutirages), la pression absolue, la température et le débit massique de la vapeur, ainsi que la puissance de sortie mesurée aux bornes de l'alternateur.
                                 </p>
+                                <h5>Version</h5>
+                                <p>V1 du 10/02/2024</p>
                                 <h5>Licence</h5>
                                 <p><a href="http://creativecommons.org/licenses/by/4.0/legalcode">CC BY 4.0 DEED</a></p>
                                 <p>Utilisation de la librairie <a href="https://github.com/NativeDynamics/NeutriumJS.thermo.IAPWS97.git">NativeDynamics</a></p>
@@ -290,7 +293,8 @@
 <script src="./dist/vue.global.js"></script>
 <script src="./dist/quasar.umd.prod.js"></script>
 <script charset="utf-8" src="./dist/neutriumJS.thermo.IAPWS97.min.js"></script>
-<script src="dist/chart.js"></script>
+<script src="./dist/chart.js"></script>
+
 <script type="module">
 
 const tc_water = 647.096;
