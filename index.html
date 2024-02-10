@@ -175,7 +175,7 @@
                     <div class="col-12 col-md-6 q-pa-sm">
                         <q-card id="results">
                             <q-card-section>
-                                <div class="text-h6">Résultats
+                                <div class="text-h6">Résultats {{ currentDate }}
                                 </div>
                             </q-card-section>
                             <q-separator inset></q-separator>
@@ -465,6 +465,7 @@ const app = Vue.createApp({
             rob3Open: false,
             columns: [],
             columns2: [],
+            currentDate: new Date().toLocaleDateString()
         } 
     },
 
