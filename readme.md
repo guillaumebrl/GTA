@@ -17,14 +17,13 @@ Les GTA présents dans certaines usines (e.g. d'incinération) ne possèdent pas
 
 L'expression du rendement présentée dans la publication CEI 953-2 la mieux adaptée aux turbines industrielles simples est le rendement thermodynamique. Défini comme le rapport de la puissance de sortie à la puissance isentropique (produit du débit massique de vapeur et de la chute d'enthalpie isentropique entre la vapeur initiale et la pression d'échappement), la valeur numérique du rendement thermodynamique ne dépend pas des conditions initiales de vapeur et d'échappement, mais est l'indication de l'efficacité de la détente seulement (aux Rendements du réducteur et de l'alternateur près)
 
-<img src="./res/eq1.png"/>
 
 
 où :
 
-- $$PE_b$$: Puissance électrique en sortie de l'alternateur
-- <img src="./res/eq3.png"/>: le débit de vapeur au point considéré
-- <img src="./res/eq4.svg"/> : la chute d'enthalpie isentropique de la vapeur entre les points p et q.
+- $PE_b$ : Puissance électrique en sortie de l'alternateur
+- $Q$: le débit de vapeur au point considéré
+- $\Delta H_{S_{p:q}}$ : la chute d'enthalpie isentropique de la vapeur entre les points p et q.
 
 Cette formule impose de connaître, en chaque point caractéristique de la turbine (admission, échappement, soutirages), la pression absolue, la température et le débit massique de la vapeur, ainsi que la puissance de sortie mesurée aux bornes de l'alternateur.
 
