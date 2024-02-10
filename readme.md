@@ -22,9 +22,9 @@ L'expression du rendement présentée dans la publication CEI 953-2 la mieux ada
 
 où :
 
-- <img src="./res/eq2.png"/>: Puissance électrique en sortie de l'alternateur
+- $$PE_b$$: Puissance électrique en sortie de l'alternateur
 - <img src="./res/eq3.png"/>: le débit de vapeur au point considéré
-- <img src="./res/eq4.png"/> : la chute d'enthalpie isentropique de la vapeur entre les points p et q.
+- <img src="./res/eq4.svg"/> : la chute d'enthalpie isentropique de la vapeur entre les points p et q.
 
 Cette formule impose de connaître, en chaque point caractéristique de la turbine (admission, échappement, soutirages), la pression absolue, la température et le débit massique de la vapeur, ainsi que la puissance de sortie mesurée aux bornes de l'alternateur.
 
