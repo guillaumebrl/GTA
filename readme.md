@@ -28,7 +28,7 @@ où :
 Cette formule impose de connaître, en chaque point caractéristique de la turbine (admission, échappement, soutirages), la pression absolue, la température et le débit massique de la vapeur, ainsi que la puissance de sortie mesurée aux bornes de l'alternateur.
 
 ### Version
-V1 du 10/02/2024
+V1 - 10/02/2024
 
 ### Conception
 
