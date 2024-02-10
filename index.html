@@ -213,7 +213,7 @@
                             </q-card-section>
                         </q-card>
 <!-- q-dialog measures -->
-                    <q-dialog v-model="measurementRecord">
+                    <q-dialog v-model="measurementRecord" persistent>
                         <q-card>
                             <q-card-section>
                                 <div class="text-h6">{{ data[dataIndex].title }}</div>
@@ -296,6 +296,7 @@
 <script charset="utf-8" src="./dist/neutriumJS.thermo.IAPWS97.min.js"></script>
 <script src="./dist/chart.js"></script>
 <script src="./dist/html2pdf.js"></script>
+<script src="https://unpkg.com/jspdf/dist/jspdf.umd.min.js"></script>
 
 <script type="module">
 
@@ -577,37 +578,21 @@ const app = Vue.createApp({
     methods: {
         
         generatePdf() {
-    // Define options for each element
-    var options = [
-        {
-            elementId: 'measures',
-            scale: 2, // Scale for first element
-            filename: 'mesures.pdf' // Choose a single filename for the entire PDF
-            // Add any other options as needed
-        },
-        {
-            elementId: 'results',
-            scale: 2, // Scale for second element
-            filename: 'résultats.pdf' // Use the same filename for both elements
-            // Add any other options as needed
-        },
-        // Add more options for other elements as needed
-    ];
 
-    // Loop through each option
-    options.forEach(opt => {
-        var element = document.getElementById(opt.elementId);
-        var html2pdfOptions = {
+    var element1 = document.getElementById("measures");
+    var element2 = document.getElementById("results");
+
+    var html2pdfOptions = {
             margin: 1,
-            filename: opt.filename,
             image: { type: 'png' },
-            html2canvas: { scale: opt.scale },
+            html2canvas: { scale: 2},
             jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
         };
 
-        // Generate PDF for each element with its respective options
-        html2pdf().from(element).set(html2pdfOptions).save();
-    });
+    html2pdf().from(element1).toPdf().get('pdf').then(function (pdf) {
+    pdf.addPage();
+}).from(element2).toContainer().toCanvas().toPdf().save();
+        
 },
 
         updateColumns() {
