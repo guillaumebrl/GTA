@@ -230,7 +230,7 @@
                                             :id="key"
                                             :rules="[val => !!val || 'le champ ne peut pas être vide']"
                                             no-error-icon=false
-                                            :hint="(key === 'rendAlt' || key === 'rendRed') ? '&#9888; valeur < 1' : ''"
+                                            :hint="(key === 'rendAlt' || key === 'rendRed') ? '&#9888; la valeur doit être < 1' : ''"
                                         ></q-input>
                                         <div align="right">
                                             <q-btn flat label="Annuler" color="primary" @click="handleCancel(dataIndex)"></q-btn>
