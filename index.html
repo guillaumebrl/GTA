@@ -37,7 +37,7 @@
             <q-header elevated class="bg-primary text-white">
                 <q-toolbar>
                     <q-toolbar-title>
-                        Mesure du rendement d'un GTA
+                        Mesure du rendement d'un groupe turbo-alternateur (GTA)
                     </q-toolbar-title>
                         <q-btn @click="documentation = true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-square-fill" viewBox="0 0 16 16">
                         <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.93 4.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
@@ -48,10 +48,10 @@
                 <div class="row">
 <!-- q-card measures -->
                     <div class="col-12 col-md-6 q-pa-sm">
-                            <q-card id="measures">
+                            <q-card id="measures" >
                             <q-card-section class="q-pt-md q-pb-md">
                                 <div class="text-h6 flex justify-between">
-                                  Relevés
+                                  Relevés <q-badge rounded color="primary" :label="currentDate"/></q-badge>
                                   <q-btn round color="primary" size="sm" @click="loadVal()">Test</q-btn>
                                 </div>
                               </q-card-section>
@@ -174,7 +174,7 @@
                     <div class="col-12 col-md-6 q-pa-sm">
                         <q-card id="results">
                             <q-card-section>
-                                <div class="text-h6">Résultats {{ currentDate }}
+                                <div class="text-h6">Résultats
                                 </div>
                             </q-card-section>
                             <q-separator inset></q-separator>
@@ -301,6 +301,7 @@
 <script src="./dist/chart.js"></script>
 <script src="./dist/html2pdf.js"></script>
 <script src="https://unpkg.com/jspdf/dist/jspdf.umd.min.js"></script>
+
 
 <script type="module">
 
