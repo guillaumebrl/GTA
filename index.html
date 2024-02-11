@@ -45,7 +45,7 @@
                     </q-toolbar>
             </q-header>
             <q-page-container>
-                <div class="row" id="pdfContent">
+                <div class="row">
 <!-- q-card measures -->
                     <div class="col-12 col-md-6 q-pa-sm">
                             <q-card id="measures">
@@ -56,7 +56,7 @@
                                 </div>
                               </q-card-section>
                             <q-separator inset></q-separator>
-                            <q-card-section class="q-pt-none">
+                            <q-card-section class="q-pt-none" id="pdfContent1">
                                 <div class="box">
                                     <div class="rectangleAdmission"><q-btn color="primary" class="btnAdm" size="xs" @click="handleShowModal(0)" label="Adm"></div>
                                     <div class="trapezeTurbine"></div>
@@ -167,7 +167,7 @@
                                       <q-btn size="sm" color="primary" @click="turbine()">Calcul <br>du rendement Isentropique</q-btn>
                                     </div>
                                     <!-- Optional: Add any additional content here -->
-                                  </q-card-section>
+                                </q-card-section>
                         </q-card>
                     </div>
 <!-- q-card results -->
@@ -179,7 +179,7 @@
                             </q-card-section>
                             <q-separator inset></q-separator>
                             
-                            <q-card-section class="q-pt-none">
+                            <q-card-section class="q-pt-none" id="pdfContent2">
                                 <div class="row " style=" margin-top: 10px; padding: 10px;">
                                     <div class="col-6 q-pa-sm">
                                   <div
@@ -203,14 +203,18 @@
                                     </div>
                                 </div>
                               </q-card-section>
-                            <q-card-section class="q-pt-none" ref="results">
+                            <q-card-section class="q-pt-none" ref="results" id="pdfContent3">
                                 <div>
                                     <q-responsive :ratio="2/1.5" style=" max-width: 100%;">
                                         <canvas id="line-chart"></canvas>
                                     </q-responsive>
                                 </div>
-                                <q-btn size="sm" color="primary" @click="generatePdf()">Générer PDF</q-btn>
                             </q-card-section>
+                            <!--q-card-section>
+                                <div class="flex justify-center">
+                                    <q-btn size="sm" color="primary" @click="generatePdf()">Générer un rapport pdf</q-btn>
+                                </div>
+                            </q-card-section-->
                         </q-card>
 <!-- q-dialog measures -->
                     <q-dialog v-model="measurementRecord" persistent>
@@ -579,20 +583,20 @@ const app = Vue.createApp({
         
         generatePdf() {
 
-    var element1 = document.getElementById("measures");
-    var element2 = document.getElementById("results");
+            var element1 = document.getElementById("pdfContent1");
+            var element2 = document.getElementById("pdfContent2");
+            var element3 = document.getElementById("pdfContent3");
 
-    var html2pdfOptions = {
-            margin: 1,
-            image: { type: 'png' },
-            html2canvas: { scale: 2, scrollX: 0, scrollY: 0, windowWidth: 596},
-            jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
-        };
+            var html2pdfOptions = {
+                    margin: 1,
+                    image: { type: 'png' },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
+                };
 
-    html2pdf().set(html2pdfOptions).from(element1).toPdf().get('pdf').then(function (pdf) {
-    pdf.addPage();
-}).from(element2).toContainer().toCanvas().toPdf().save();
-        
+            html2pdf().set(html2pdfOptions).from(element1).toPdf().get('pdf').then(function (pdf) {
+            pdf.addPage();
+        }).from(element2).toContainer().toCanvas().toPdf().from(element3).toContainer().toCanvas().toPdf().save();         
 },
 
         updateColumns() {
@@ -1298,6 +1302,7 @@ const app = Vue.createApp({
                                 display: false
                             },
                             tooltip: {
+                                displayColors: false,
                                 filter: function (tooltipItem) {
                                     return tooltipItem.datasetIndex === 0 || tooltipItem.datasetIndex === 1;
                                 },
