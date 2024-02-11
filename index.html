@@ -585,7 +585,7 @@ const app = Vue.createApp({
     var html2pdfOptions = {
             margin: 1,
             image: { type: 'png' },
-            html2canvas: { scale: 2},
+            html2canvas: { scale: 2, , scrollX: 0, scrollY: 0, width: 596},
             jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
         };
 
