@@ -299,6 +299,7 @@
 <script src="./dist/quasar.umd.prod.js"></script>
 <script charset="utf-8" src="./dist/neutriumJS.thermo.IAPWS97.min.js"></script>
 <script src="./dist/chart.js"></script>
+<script src="./dist/chartjs-plugin-annotation.js"></script>
 <script src="./dist/html2pdf.js"></script>
 <script src="https://unpkg.com/jspdf/dist/jspdf.umd.min.js"></script>
 
@@ -454,7 +455,7 @@ const app = Vue.createApp({
             },
             7: {
                 "title": "Puissance électrique",
-                "fields": {"pElec" : "Mesure"},
+                "fields": {"pElec" : "Mesure (MW)"},
                 "pElec": ""
             }
         };
@@ -539,39 +540,56 @@ const app = Vue.createApp({
         computedPoints() {
             let dataPoints = [[
                 {   tooltipLabel: "Admission",
+                    dset: "red",
                     x:this.data[0].s,
                     y:this.data[0].h
                 },
                 {  tooltipLabel: "Soutirage 1",
+                dset: "red",
+
                     x:this.data[1].s,
                     y:this.data[1].h
                 },
                 {tooltipLabel: "Soutirage 2",
+                dset: "red",
+
                     x:this.data[2].s,
                     y:this.data[2].h
                 },
                 {tooltipLabel: "Soutirage 3",
+                dset: "red",
+
                     x:this.data[3].s,
                     y:this.data[3].h
                 },
                 {tooltipLabel: "Echappement",
+                dset: "red",
+
                     x:this.data[4].s,
                     y:this.data[4].h
                 }],
                 [{tooltipLabel: "Soutirage 1 iso",
+                dset: "green",
+
                     x:this.data[1].s_iso,
                     y:this.data[1].h_iso
                 },
                 {tooltipLabel: "Soutirage 2 iso",
+                dset: "green",
+
                     x:this.data[2].s_iso,
                     y:this.data[2].h_iso
                 },              
                 {tooltipLabel: "Soutirage 3 iso",
+                dset: "green",
+
                     x:this.data[3].s_iso,
                     y:this.data[3].h_iso
                 },               
                 {
                 tooltipLabel: "Echappement iso",
+                dset: "green",
+
                     x:this.data[4].s_iso,
                     y:this.data[4].h_iso
                 }]
@@ -743,7 +761,7 @@ const app = Vue.createApp({
 
             this.data[3].P = 1,
             this.data[3].T = 100,
-            this.data[3].Q = 0,
+            this.data[3].Q = 2,
 
             this.data[4].P = 0.102,
             this.data[4].T = 46,
@@ -871,13 +889,38 @@ const app = Vue.createApp({
 
             const rend_isentropique = pElec * (10 / (0.00277 * contrib_rend));
 
-            this.rendementTurbine = (rend_isentropique / (rendAlt * rendRed) * 100).toFixed(2)
-            this.rendement = (rend_isentropique * 100).toFixed(2)
+            this.rendementTurbine = (rend_isentropique / (rendAlt * rendRed) * 100).toFixed(2);
+            this.rendement = (rend_isentropique * 100).toFixed(2);
             this.computedPoints;
             this.createChart("line-chart");
         },
 
         createChart (chartId) {
+            const annotations = [];
+            const isPortraitMode = window.matchMedia("(orientation: portrait)").matches;
+            const screenWidth = window.innerWidth; 
+            this.computedPoints.forEach(pointsArray => {
+                pointsArray.forEach(point => {
+                    const positionX = point.dset === "red" ? 'start' : 'end'; // Dynamic X position based on 'dset' property
+                    const positionY = point.dset === "red" ? 'end' : 'start'; // Dynamic X position based on 'dset' property
+                    const annotation = {
+                        type: 'label',
+                        display: function(context) {
+                                  return window.innerWidth > 600;
+                                },
+                        init: true,
+                        content: `${point.tooltipLabel} h: ${point.y.toFixed(2)}`,
+                        xValue: point.x,
+                        yValue: point.y,
+                        position: {
+                        x: positionX,
+                        y: positionY - 10
+                    },
+                    };
+                    annotations.push(annotation);
+                });
+            });
+
             const ctx = document.getElementById(chartId)
             
             const existingChart = Chart.getChart(ctx);
@@ -905,8 +948,7 @@ const app = Vue.createApp({
                             backgroundColor: '#21ba45',
                             elements: {
                                 point: {
-                                    radius: 2,
-                                    
+                                    radius: 2, 
                                 },   
                             },    
                         },
@@ -1302,9 +1344,12 @@ const app = Vue.createApp({
                             legend: {
                                 display: false
                             },
+                            annotation:{
+                                annotations:[...annotations]
+                            },
                             tooltip: {
                                 enabled: function(context) {
-                                  return window.innerWidth <= 600;
+                                  return window.innerWidth < 600;
                                 },
                                 displayColors: false,
                                 filter: function (tooltipItem) {
