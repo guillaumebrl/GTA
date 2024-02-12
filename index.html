@@ -1303,6 +1303,9 @@ const app = Vue.createApp({
                                 display: false
                             },
                             tooltip: {
+                                enabled: function(context) {
+                                  return window.innerWidth <= 600;
+                                },
                                 displayColors: false,
                                 filter: function (tooltipItem) {
                                     return tooltipItem.datasetIndex === 0 || tooltipItem.datasetIndex === 1;
