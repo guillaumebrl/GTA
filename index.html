@@ -45,9 +45,9 @@
                     </q-toolbar>
             </q-header>
             <q-page-container>
-                <div class="row">
+                <div class="row self-stretch">
 <!-- q-card measures -->
-                    <div class="col-12 col-md-6 q-pa-sm">
+                    <div class="col-12 col-md-6 q-pa-sm self-stretch">
                             <q-card id="measures" >
                             <q-card-section class="q-pt-md q-pb-md">
                                 <div class="text-h6 flex justify-between">
@@ -172,7 +172,7 @@
                     </div>
 <!-- q-card results -->
                     <div class="col-12 col-md-6 q-pa-sm">
-                        <q-card id="results">
+                        <q-card id="results" style=" height: 100%">
                             <q-card-section>
                                 <div class="text-h6">Résultats
                                 </div>
@@ -205,7 +205,7 @@
                               </q-card-section>
                             <q-card-section class="q-pt-none" ref="results" id="pdfContent3">
                                 <div>
-                                    <q-responsive :ratio="2/1.5" style=" max-width: 100%;">
+                                    <q-responsive :ratio="2/1.5" style=" max-width: 100%">
                                         <canvas id="line-chart"></canvas>
                                     </q-responsive>
                                 </div>
