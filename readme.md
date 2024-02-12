@@ -30,7 +30,7 @@ Cette formule impose de connaître, en chaque point caractéristique de la turbi
 ### Version
 V1 - 10/02/2024
 
-### Conception
+### Conception - réalisation
 
 Vincent & Guillaume Bril
 
