@@ -210,11 +210,6 @@
                                     </q-responsive>
                                 </div>
                             </q-card-section>
-                            <!--q-card-section>
-                                <div class="flex justify-center">
-                                    <q-btn size="sm" color="primary" @click="generatePdf()">Générer un rapport pdf</q-btn>
-                                </div>
-                            </q-card-section-->
                         </q-card>
 <!-- q-dialog measures -->
                     <q-dialog v-model="measurementRecord" persistent>
@@ -300,9 +295,6 @@
 <script charset="utf-8" src="./dist/neutriumJS.thermo.IAPWS97.min.js"></script>
 <script src="./dist/chart.js"></script>
 <script src="./dist/chartjs-plugin-annotation.js"></script>
-<script src="./dist/html2pdf.js"></script>
-<script src="https://unpkg.com/jspdf/dist/jspdf.umd.min.js"></script>
-
 
 <script type="module">
 
@@ -599,24 +591,6 @@ const app = Vue.createApp({
     },
 
     methods: {
-        
-        generatePdf() {
-
-            var element1 = document.getElementById("pdfContent1");
-            var element2 = document.getElementById("pdfContent2");
-            var element3 = document.getElementById("pdfContent3");
-
-            var html2pdfOptions = {
-                    margin: 1,
-                    image: { type: 'png' },
-                    html2canvas: { scale: 2 },
-                    jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
-                };
-
-            html2pdf().set(html2pdfOptions).from(element1).toPdf().get('pdf').then(function (pdf) {
-            pdf.addPage();
-        }).from(element2).toContainer().toCanvas().toPdf().from(element3).toContainer().toCanvas().toPdf().save();         
-},
 
         updateColumns() {
             const isPortraitMode = window.matchMedia("(orientation: portrait)").matches;
